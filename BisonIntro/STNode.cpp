@@ -1,0 +1,153 @@
+#include "STNode.h"
+const char *g_nodenames[] ={
+	"NUMBER",
+	"IDENTIFIER",
+	"ADDITION",
+	"ASSIGNMENT",
+	"SUBTRACTION",
+	"MULTIPLICATION",
+	"DIVISION",
+	"EXPRLIST",
+	"NT_LESSEQUAL",
+	"NT_GREATEREQUAL",
+	"NT_LESS",
+	"NT_GREATER",
+	"NT_EQUAL",
+	"NT_NOTEQUAL"
+} ;
+
+int STNode::ms_serialNumberCounter = 0;
+STNode* g_root = NULL;
+
+
+STNode::STNode(NODETYPE type){
+	m_serialNumber = ms_serialNumberCounter++;
+	m_type = type;
+	m_children = new list<STNode*>();
+	m_nodeName = g_nodenames[type];
+}
+
+string STNode::GetGraphVizLabel(){
+	return m_nodeName + std::to_string(m_serialNumber);
+}
+
+void STNode::PrintSyntaxTree(ofstream* dotfile,STNode* parent){
+	list<STNode*>::iterator it;
+	
+	if ( parent != nullptr )	{
+		(*dotfile) <<"\t\"" << parent->GetGraphVizLabel() <<
+			"\"->\"" <<  GetGraphVizLabel() << "\";\n";
+	}
+	else
+	{
+		(*dotfile) << "digraph G {\n";
+	}
+
+	for( it = m_children->begin(); it != m_children->end() ; it++)	{
+		(*it)->PrintSyntaxTree(dotfile, this);
+	}
+
+	if ( parent == nullptr)
+	{
+		(*dotfile) << "}";
+	}
+}
+
+STNode::~STNode(){	
+}
+
+
+
+void STNode::AddChild(STNode* node){
+	m_children->push_back(node);
+}
+
+ExprList::ExprList(STNode* expr):STNode(NT_EXPRLIST){
+	AddChild(expr);
+}
+
+ExprList::ExprList(STNode* explist, STNode* expr):STNode(NT_EXPRLIST){
+	AddChild(explist);
+	AddChild(expr);
+}
+
+
+Addition::Addition(STNode* left, STNode* right):
+STNode(NT_ADDITION){
+	AddChild(left);
+	AddChild(right);
+}
+
+Assignment::Assignment(STNode* id, STNode* expr):
+STNode(NT_ASSIGNMENT){
+	AddChild(id);
+	AddChild(expr);
+}
+
+Subtraction::Subtraction(STNode* left, STNode* right) :
+	STNode(NT_SUBTRACTION) {
+	AddChild(left);
+	AddChild(right);
+}
+Multiplication::Multiplication(STNode* left, STNode* right) :
+	STNode(NT_MULTIPLICATION) {
+	AddChild(left);
+	AddChild(right);
+}
+Division::Division(STNode* left, STNode* right) :
+	STNode(NT_DIVISION) {
+	AddChild(left);
+	AddChild(right);
+}
+
+NUMBER::NUMBER(char* number):STNode(NT_NUMBER){
+	m_number = number;
+}
+
+IDENTIFIER::IDENTIFIER(string name):STNode(NT_IDENTIFIER){
+	m_name = name;
+}
+
+string NUMBER::GetGraphVizLabel(){
+	return STNode::GetGraphVizLabel() + "_" + m_number;
+}
+
+string IDENTIFIER::GetGraphVizLabel(){
+	return STNode::GetGraphVizLabel() + "_" + m_name;
+}
+
+LessEqual::LessEqual(STNode* left, STNode* right) :
+STNode(NT_LESSEQUAL){
+	AddChild(left);
+	AddChild(right);
+}
+
+GreaterEqual::GreaterEqual(STNode* left, STNode* right) :
+	STNode(NT_GREATEREQUAL){
+	AddChild(left);
+	AddChild(right);
+}
+
+Less::Less(STNode* left, STNode* right) :
+	STNode(NT_LESS){
+	AddChild(left);
+	AddChild(right);
+}
+
+Greater::Greater(STNode* left, STNode* right) :
+	STNode(NT_GREATER){
+	AddChild(left);
+	AddChild(right);
+}
+
+Equal::Equal(STNode* left, STNode* right) :
+	STNode(NT_EQUAL){
+	AddChild(left);
+	AddChild(right);
+}
+
+NotEqual::NotEqual(STNode* left, STNode* right) :
+	STNode(NT_NOTEQUAL){
+	AddChild(left);
+	AddChild(right);
+}
