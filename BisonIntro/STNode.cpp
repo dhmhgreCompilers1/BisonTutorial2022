@@ -1,5 +1,5 @@
 #include "STNode.h"
-const char *g_nodenames[] ={
+const char* g_nodenames[] = {
 	"NUMBER",
 	"IDENTIFIER",
 	"ADDITION",
@@ -13,73 +13,83 @@ const char *g_nodenames[] ={
 	"NT_LESS",
 	"NT_GREATER",
 	"NT_EQUAL",
-	"NT_NOTEQUAL"
-} ;
+	"NT_NOTEQUAL",
+	"NT_AND",
+	"NT_OR",
+	"NT_NOT",
+	"NT_UNARYPLUS",
+	"NT_UNARYMINUS",
+	"NT_PARENTHESIS"
+};
 
 int STNode::ms_serialNumberCounter = 0;
 STNode* g_root = NULL;
 
 
-STNode::STNode(NODETYPE type){
+STNode::STNode(NODETYPE type) {
 	m_serialNumber = ms_serialNumberCounter++;
 	m_type = type;
 	m_children = new list<STNode*>();
 	m_nodeName = g_nodenames[type];
 }
 
-string STNode::GetGraphVizLabel(){
+string STNode::GetGraphVizLabel() {
 	return m_nodeName + std::to_string(m_serialNumber);
 }
 
-void STNode::PrintSyntaxTree(ofstream* dotfile,STNode* parent){
+void STNode::PrintSyntaxTree(ofstream* dotfile, STNode* parent) {
 	list<STNode*>::iterator it;
-	
-	if ( parent != nullptr )	{
-		(*dotfile) <<"\t\"" << parent->GetGraphVizLabel() <<
-			"\"->\"" <<  GetGraphVizLabel() << "\";\n";
+
+	if (parent != nullptr) {
+		(*dotfile) << "\t\"" << parent->GetGraphVizLabel() <<
+			"\"->\"" << GetGraphVizLabel() << "\";\n";
 	}
 	else
 	{
 		(*dotfile) << "digraph G {\n";
 	}
 
-	for( it = m_children->begin(); it != m_children->end() ; it++)	{
+	for (it = m_children->begin(); it != m_children->end(); it++) {
 		(*it)->PrintSyntaxTree(dotfile, this);
 	}
 
-	if ( parent == nullptr)
+	if (parent == nullptr)
 	{
 		(*dotfile) << "}";
 	}
 }
 
-STNode::~STNode(){	
+STNode::~STNode() {
 }
 
 
 
-void STNode::AddChild(STNode* node){
+void STNode::AddChild(STNode* node) {
 	m_children->push_back(node);
 }
 
-ExprList::ExprList(STNode* expr):STNode(NT_EXPRLIST){
+ExprList::ExprList(STNode* expr) :STNode(NT_EXPRLIST) {
 	AddChild(expr);
 }
 
-ExprList::ExprList(STNode* explist, STNode* expr):STNode(NT_EXPRLIST){
+ExprList::ExprList(STNode* explist, STNode* expr) :STNode(NT_EXPRLIST) {
 	AddChild(explist);
 	AddChild(expr);
 }
 
 
-Addition::Addition(STNode* left, STNode* right):
-STNode(NT_ADDITION){
+Addition::Addition(STNode* left, STNode* right) :
+	STNode(NT_ADDITION) {
 	AddChild(left);
 	AddChild(right);
 }
 
-Assignment::Assignment(STNode* id, STNode* expr):
-STNode(NT_ASSIGNMENT){
+Parenthesis::Parenthesis(STNode* arg) : STNode(NT_PARENTHESIS){
+	AddChild(arg);
+}
+
+Assignment::Assignment(STNode* id, STNode* expr) :
+	STNode(NT_ASSIGNMENT) {
 	AddChild(id);
 	AddChild(expr);
 }
@@ -100,54 +110,82 @@ Division::Division(STNode* left, STNode* right) :
 	AddChild(right);
 }
 
-NUMBER::NUMBER(char* number):STNode(NT_NUMBER){
+NUMBER::NUMBER(char* number) :STNode(NT_NUMBER) {
 	m_number = number;
+	m_value = atoi(number);
 }
 
-IDENTIFIER::IDENTIFIER(string name):STNode(NT_IDENTIFIER){
+IDENTIFIER::IDENTIFIER(string name) :STNode(NT_IDENTIFIER) {
 	m_name = name;
 }
 
-string NUMBER::GetGraphVizLabel(){
+string NUMBER::GetGraphVizLabel() {
 	return STNode::GetGraphVizLabel() + "_" + m_number;
 }
 
-string IDENTIFIER::GetGraphVizLabel(){
+string IDENTIFIER::GetGraphVizLabel() {
 	return STNode::GetGraphVizLabel() + "_" + m_name;
 }
 
 LessEqual::LessEqual(STNode* left, STNode* right) :
-STNode(NT_LESSEQUAL){
+	STNode(NT_LESSEQUAL) {
 	AddChild(left);
 	AddChild(right);
 }
 
 GreaterEqual::GreaterEqual(STNode* left, STNode* right) :
-	STNode(NT_GREATEREQUAL){
+	STNode(NT_GREATEREQUAL) {
 	AddChild(left);
 	AddChild(right);
 }
 
 Less::Less(STNode* left, STNode* right) :
-	STNode(NT_LESS){
+	STNode(NT_LESS) {
 	AddChild(left);
 	AddChild(right);
 }
 
 Greater::Greater(STNode* left, STNode* right) :
-	STNode(NT_GREATER){
+	STNode(NT_GREATER) {
 	AddChild(left);
 	AddChild(right);
 }
 
 Equal::Equal(STNode* left, STNode* right) :
-	STNode(NT_EQUAL){
+	STNode(NT_EQUAL) {
 	AddChild(left);
 	AddChild(right);
 }
 
 NotEqual::NotEqual(STNode* left, STNode* right) :
-	STNode(NT_NOTEQUAL){
+	STNode(NT_NOTEQUAL) {
 	AddChild(left);
 	AddChild(right);
 }
+
+And::And(STNode* left, STNode* right) :
+	STNode(NT_AND) {
+	AddChild(left);
+	AddChild(right);
+}
+
+Or::Or(STNode* left, STNode* right) :
+	STNode(NT_OR) {
+	AddChild(left);
+	AddChild(right);
+}
+Not::Not(STNode* right) :
+	STNode(NT_NOT) {
+	AddChild(right);
+}
+
+Plus::Plus(STNode* right) :
+	STNode(NT_UNARYPLUS) {
+	AddChild(right);
+}
+
+Minus::Minus(STNode* right) :
+	STNode(NT_UNARYMINUS) {
+	AddChild(right);
+}
+

@@ -43,6 +43,9 @@
     <ClCompile Include="Symbol.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EvaluateTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Intro.tab.h">

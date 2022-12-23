@@ -134,6 +134,7 @@
     <Bison Include="Intro.y" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EvaluateTree.cpp" />
     <ClCompile Include="Intro.flex.cpp" />
     <ClCompile Include="Intro.tab.cpp" />
     <ClCompile Include="main.cpp" />

@@ -20,11 +20,19 @@ typedef enum nodetype
 	NT_LESS,
 	NT_GREATER,
 	NT_EQUAL,
-	NT_NOTEQUAL
+	NT_NOTEQUAL,
+	NT_AND,
+	NT_OR,
+	NT_NOT,
+	NT_UNARYPLUS,
+	NT_UNARYMINUS,
+	NT_PARENTHESIS
 } NODETYPE;
 
 
-class STNode{
+
+
+class STNode {
 
 public:
 	STNode(NODETYPE type);
@@ -32,10 +40,12 @@ public:
 	void AddChild(STNode* node);
 	virtual string GetGraphVizLabel();
 
-	virtual void PrintSyntaxTree(ofstream* dotfile,STNode* parent);
-	
-private:
-	list<STNode*> *m_children;
+	virtual void PrintSyntaxTree(ofstream* dotfile, STNode* parent);
+
+	virtual double EvaluateTree(STNode* parent);
+
+protected:
+	list<STNode*>* m_children;
 	string m_nodeName;
 	int m_serialNumber;
 	NODETYPE m_type;
@@ -51,15 +61,24 @@ public:
 private:
 };
 
-class Addition : public STNode{
+class Addition : public STNode {
 public:
-	Addition(STNode *left, STNode *right);
+	Addition(STNode* left, STNode* right);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class Parenthesis : public STNode {
+public:
+	Parenthesis(STNode* arg);
+	double EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Assignment : public STNode {
 public:
 	Assignment(STNode* id, STNode* expr);
+	double EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -115,11 +134,48 @@ public:
 private:
 };
 
+//| expr AND expr{ $$ = new And($1,$3); }
+//| expr OR expr{ $$ = new Or($1,$3); }
+//| NOT expr{ $$ = new Not($2); }
+//| PLUS expr % prec UNARYOP{ $$ = new Plus($2); }
+//| '-' expr % prec UNARYOP{ $$ = new Minus($2); }
+class And : public STNode {
+public:
+	And(STNode* left, STNode* right);
+private:
+};
+
+class Or : public STNode {
+public:
+	Or(STNode* left, STNode* right);
+private:
+};
+
+class Not : public STNode {
+public:
+	Not(STNode* right);
+private:
+};
+
+class Plus : public STNode {
+public:
+	Plus(STNode* right);
+private:
+};
+
+class Minus : public STNode {
+public:
+	Minus(STNode* right);
+private:
+};
+
 class NUMBER : public STNode {
+	double m_value;
 	string m_number;
 public:
-	NUMBER(char *number);
+	NUMBER(char* number);
 	string GetGraphVizLabel() override;
+	double EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -127,7 +183,9 @@ class IDENTIFIER : public STNode {
 	string m_name;
 public:
 	IDENTIFIER(string name);
+	string Name() { return m_name; }
 	string GetGraphVizLabel() override;
+	double EvaluateTree(STNode* parent) override;
 private:
 };
 

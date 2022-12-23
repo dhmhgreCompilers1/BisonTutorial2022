@@ -24,6 +24,9 @@ typedef yy::parser::token TOKEN;
 ">=" { return TOKEN::GE;}
 "==" { return TOKEN::EQ;}
 "!=" { return TOKEN::NE;}
+"&&" { return TOKEN::AND;}
+"||" { return TOKEN::OR;}
+"!" { return TOKEN::NOT;}
 
 0|[1-9][0-9]* {		yylval->node=new NUMBER(yytext);
 					return TOKEN::NUMBER;}
@@ -31,6 +34,7 @@ typedef yy::parser::token TOKEN;
 						s= g_symbolTable->GetEntity(x);
 						yylval->node=s->m_identifier;
 						return TOKEN::IDENTIFIER; }
+[ \t\n\r]
 
 %%
 

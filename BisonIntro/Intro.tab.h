@@ -95,11 +95,27 @@ namespace yy {
    enum yytokentype {
      NUMBER = 258,
      IDENTIFIER = 259,
-     PLUS = 260,
-     EQ = 261,
-     NE = 262,
-     GE = 263,
-     LE = 264
+     IF = 260,
+     WHILE = 261,
+     FOR = 262,
+     BREAK = 263,
+     CONTINUE = 264,
+     RETURN = 265,
+     INT = 266,
+     DOUBLE = 267,
+     VOID = 268,
+     STRING = 269,
+     IFRULE = 270,
+     OR = 271,
+     AND = 272,
+     EQ = 273,
+     NE = 274,
+     GE = 275,
+     LE = 276,
+     PLUS = 277,
+     ELSE = 278,
+     UNARYOP = 279,
+     NOT = 280
    };
 
     };
@@ -185,7 +201,7 @@ namespace yy {
     typedef unsigned char token_number_type;
     /* Tables.  */
     /// For a state, the index in \a yytable_ of its portion.
-    static const signed char yypact_[];
+    static const short int yypact_[];
     static const signed char yypact_ninf_;
 
     /// For a state, default reduction number.
@@ -204,7 +220,7 @@ namespace yy {
     static const signed char yytable_[];
     static const signed char yytable_ninf_;
 
-    static const unsigned char yycheck_[];
+    static const signed char yycheck_[];
 
     /// For a state, its accessing symbol.
     static const unsigned char yystos_[];
@@ -275,7 +291,7 @@ namespace yy {
 
 } // yy
 /* Line 33 of lalr1.cc  */
-#line 279 "Intro.tab.h"
+#line 295 "Intro.tab.h"
 
 
 
