@@ -5,6 +5,11 @@
 #include <fstream>
 using namespace std;
 
+typedef union DataValue{
+	int i;
+	double d;
+}DATAVALUE;
+
 typedef enum nodetype
 {
 	NT_NUMBER,
@@ -47,10 +52,10 @@ typedef enum nodetype
 	NT_PARENTHESIS
 } NODETYPE;
 
-enum TYPESPECIFIER
+typedef enum TypeSpecifier
 {
 	TS_VOID, TS_DOUBLE,TS_INT, TS_STRING
-};
+} TYPESPECIFIER;
 
 
 
@@ -197,18 +202,6 @@ public:
 private:
 };
 
-/*
-
-typespecifier : INT
-			  | DOUBLE
-			  | STRING
-			  | VOID
-			  ;
-			  
- *
- */
-
-
 class Addition : public STNode {
 public:
 	Addition(STNode* left, STNode* right);
@@ -318,7 +311,7 @@ private:
 };
 
 class NUMBER : public STNode {
-	double m_value;
+	DATAVALUE m_value;
 	string m_number;
 public:
 	NUMBER(char* number);
@@ -337,11 +330,11 @@ public:
 private:
 };
 
-class TypeSpecfifier : public STNode {
-	enum TYPESPECIFIER m_typespec;
+class CTypeSpecifier : public STNode {
+	TYPESPECIFIER m_typespec;
 public:
-	TypeSpecfifier(enum TYPESPECIFIER m_typespec);
-	enum TYPESPECIFIER Type() { return m_typespec; }
+	CTypeSpecifier(TYPESPECIFIER m_typespec,char *text);
+	TYPESPECIFIER Type() { return m_typespec; }
 	string GetGraphVizLabel() override;
 	double EvaluateTree(STNode* parent) override;
 private:

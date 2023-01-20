@@ -21,8 +21,9 @@ using namespace std;
 };
 
 %start compileunit
-%token NUMBER IDENTIFIER IF WHILE FOR BREAK CONTINUE RETURN
-%token INT DOUBLE VOID STRING 
+%token IDENTIFIER IF WHILE FOR BREAK CONTINUE RETURN
+%token INT_TYPE DOUBLE_TYPE VOID_TYPE STRING_TYPE 
+%token STRING NUMBER
 %nonassoc IFRULE
 %right '='
 %left OR
@@ -31,41 +32,43 @@ using namespace std;
 %left PLUS '-' 
 %left '*' '/'
 %nonassoc NOT UNARYOP ELSE
-%type <node> NUMBER IDENTIFIER expr
+%type <node> NUMBER STRING IDENTIFIER expr compileunit declaration statement datadeclaration functiondeclaration
+typespecifier datadeclarations datavalue exprstatement emptystatement whilestatement ifstatement
+forstatement breakstatement returnstatement continuestatement compoundstatement
 %%
 
-compileunit : declaration
-			| statement
-			| compileunit declaration
-			| compileunit statement
+compileunit : declaration  { $$ =g_root= new CompileUnit($1); }
+			| statement    { $$ =g_root= new CompileUnit($1); }
+			| compileunit declaration { $$ =g_root= new CompileUnit($1,$2); }
+			| compileunit statement { $$ =g_root= new CompileUnit($1,$2); }
 			;
 
-declaration : datadeclaration
-			| functiondeclaration
+declaration : datadeclaration		{ $$ = new Declaration($1);  }
+			| functiondeclaration   { $$ = new Declaration($1);  }
 			;
 
-functiondeclaration : typespecifier IDENTIFIER '(' datadeclarations ')' statement
+functiondeclaration : typespecifier IDENTIFIER '(' datadeclarations ')' statement { $$ = new FunctionDeclaration($1,$2,$4,$6);  }
 					;
 
-datadeclarations : datadeclaration
-				 | datadeclarations ',' datadeclaration
+datadeclarations : datadeclaration						{ $$ = new DataDeclarations($1);  }
+				 | datadeclarations ',' datadeclaration { $$ = new DataDeclarations($1,$3);  }
 				 ;
 
-datadeclaration : typespecifier IDENTIFIER ';'
-				| typespecifier IDENTIFIER '=' datavalue
+datadeclaration : typespecifier IDENTIFIER ';'				{ $$ = new DataDeclaration($1,$2);  }
+				| typespecifier IDENTIFIER '=' datavalue    { $$ = new DataDeclaration($1,$2,$4);  }
 				;
 
-typespecifier : INT
-			  | DOUBLE
-			  | STRING
-			  | VOID
+typespecifier : INT_TYPE	 { $$ = new CTypeSpecifier(TS_INT); }
+			  | DOUBLE_TYPE  { $$ = new CTypeSpecifier(TS_DOUBLE); }
+			  | STRING_TYPE  { $$ = new CTypeSpecifier(TS_STRING); }
+			  | VOID_TYPE    { $$ = new CTypeSpecifier(TS_VOID); }
 			  ;
 
-datavalue : NUMBER
-		  | STRING
+datavalue : NUMBER  {$$=$1;}
+		  | STRING  {$$=$1; }
 		  ;
 
-statement : exprstatement
+statement : exprstatement	
 		  | emptystatement
 		  | whilestatement
 		  | ifstatement

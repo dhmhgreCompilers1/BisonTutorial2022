@@ -12,6 +12,10 @@ typedef yy::parser::token TOKEN;
 %%
  std::string x;
  Symbol *s;
+"int" {return TOKEN::INT_TYPE;}
+"double" {return TOKEN::DOUBLE_TYPE;}
+"void" {return TOKEN::VOID_TYPE;}
+"string" {return TOKEN::STRING_TYPE;}
 "+" { return TOKEN::PLUS; }
 "-" { return '-';}
 "*" { return '*';}
@@ -20,6 +24,9 @@ typedef yy::parser::token TOKEN;
 "=" { return '=';}
 "<" { return '<';}
 ">" { return '>';}
+"(" { return '(';}
+")" { return ')';}
+"," { return ',';}
 "<=" { return TOKEN::LE;}
 ">=" { return TOKEN::GE;}
 "==" { return TOKEN::EQ;}
@@ -28,8 +35,9 @@ typedef yy::parser::token TOKEN;
 "||" { return TOKEN::OR;}
 "!" { return TOKEN::NOT;}
 
-0|[1-9][0-9]* {		yylval->node=new NUMBER(yytext);
-					return TOKEN::NUMBER;}
+0|[1-9][0-9]* {		yylval->node=new NUMBER(TS_INT,yytext);
+					return TOKEN::INT;}
+
 [a-zA-Z][a-zA-Z0-9_]* { x = string(yytext);
 						s= g_symbolTable->GetEntity(x);
 						yylval->node=s->m_identifier;

@@ -237,7 +237,7 @@ Division::Division(STNode* left, STNode* right) :
 	AddChild(right);
 }
 
-TypeSpecfifier::TypeSpecfifier(TYPESPECIFIER typespec)
+TypeSpecifier::TypeSpecifier(TYPESPECIFIER typespec)
 	:STNode(NT_TYPESPECIFIER){
 	m_typespec = typespec;
 }

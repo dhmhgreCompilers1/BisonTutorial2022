@@ -93,29 +93,30 @@ namespace yy {
     {
       /* Tokens.  */
    enum yytokentype {
-     NUMBER = 258,
-     IDENTIFIER = 259,
-     IF = 260,
-     WHILE = 261,
-     FOR = 262,
-     BREAK = 263,
-     CONTINUE = 264,
-     RETURN = 265,
-     INT = 266,
-     DOUBLE = 267,
-     VOID = 268,
+     IDENTIFIER = 258,
+     IF = 259,
+     WHILE = 260,
+     FOR = 261,
+     BREAK = 262,
+     CONTINUE = 263,
+     RETURN = 264,
+     INT_TYPE = 265,
+     DOUBLE_TYPE = 266,
+     VOID_TYPE = 267,
+     STRING_TYPE = 268,
      STRING = 269,
-     IFRULE = 270,
-     OR = 271,
-     AND = 272,
-     EQ = 273,
-     NE = 274,
-     GE = 275,
-     LE = 276,
-     PLUS = 277,
-     ELSE = 278,
-     UNARYOP = 279,
-     NOT = 280
+     NUMBER = 270,
+     IFRULE = 271,
+     OR = 272,
+     AND = 273,
+     EQ = 274,
+     NE = 275,
+     GE = 276,
+     LE = 277,
+     PLUS = 278,
+     ELSE = 279,
+     UNARYOP = 280,
+     NOT = 281
    };
 
     };
@@ -291,7 +292,7 @@ namespace yy {
 
 } // yy
 /* Line 33 of lalr1.cc  */
-#line 295 "Intro.tab.h"
+#line 296 "Intro.tab.h"
 
 
 

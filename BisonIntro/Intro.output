@@ -18,10 +18,10 @@ Grammar
    10 datadeclaration: typespecifier IDENTIFIER ';'
    11                | typespecifier IDENTIFIER '=' datavalue
 
-   12 typespecifier: INT
-   13              | DOUBLE
-   14              | STRING
-   15              | VOID
+   12 typespecifier: INT_TYPE
+   13              | DOUBLE_TYPE
+   14              | STRING_TYPE
+   15              | VOID_TYPE
 
    16 datavalue: NUMBER
    17          | STRING
@@ -98,73 +98,74 @@ $end (0) 0
 '{' (123) 27 28
 '}' (125) 27 28
 error (256)
-NUMBER (258) 16 42
-IDENTIFIER (259) 7 10 11 43 45
-IF (260) 40 41
-WHILE (261) 35
-FOR (262) 36 37
-BREAK (263) 29
-CONTINUE (264) 32
-RETURN (265) 30 31
-INT (266) 12
-DOUBLE (267) 13
-VOID (268) 15
-STRING (269) 14 17
-IFRULE (270)
-OR (271) 57
-AND (272) 56
-EQ (273) 54
-NE (274) 55
-GE (275) 53
-LE (276) 52
-PLUS (277) 46 59
-ELSE (278) 41
-UNARYOP (279)
-NOT (280) 58
+IDENTIFIER (258) 7 10 11 43 45
+IF (259) 40 41
+WHILE (260) 35
+FOR (261) 36 37
+BREAK (262) 29
+CONTINUE (263) 32
+RETURN (264) 30 31
+INT_TYPE (265) 12
+DOUBLE_TYPE (266) 13
+VOID_TYPE (267) 15
+STRING_TYPE (268) 14
+STRING (269) 17
+NUMBER (270) 16 42
+IFRULE (271)
+OR (272) 57
+AND (273) 56
+EQ (274) 54
+NE (275) 55
+GE (276) 53
+LE (277) 52
+PLUS (278) 46 59
+ELSE (279) 41
+UNARYOP (280)
+NOT (281) 58
 
 
 Nonterminals, with rules where they appear
 
-$accept (38)
+$accept (39)
     on left: 0
-compileunit (39)
+compileunit (40)
     on left: 1 2 3 4, on right: 0 3 4
-declaration (40)
+declaration (41)
     on left: 5 6, on right: 1 3
-functiondeclaration (41)
+functiondeclaration (42)
     on left: 7, on right: 6
-datadeclarations (42)
+datadeclarations (43)
     on left: 8 9, on right: 7 9
-datadeclaration (43)
+datadeclaration (44)
     on left: 10 11, on right: 5 8 9
-typespecifier (44)
+typespecifier (45)
     on left: 12 13 14 15, on right: 7 10 11
-datavalue (45)
+datavalue (46)
     on left: 16 17, on right: 11
-statement (46)
+statement (47)
     on left: 18 19 20 21 22 23 24 25 26, on right: 2 4 7 27 35 36 37
     40 41
-compoundstatement (47)
+compoundstatement (48)
     on left: 27 28, on right: 26
-breakstatement (48)
+breakstatement (49)
     on left: 29, on right: 23
-returnstatement (49)
+returnstatement (50)
     on left: 30 31, on right: 24
-continuestatement (50)
+continuestatement (51)
     on left: 32, on right: 25
-exprstatement (51)
+exprstatement (52)
     on left: 33, on right: 18 38
-emptystatement (52)
+emptystatement (53)
     on left: 34, on right: 19 39
-whilestatement (53)
+whilestatement (54)
     on left: 35, on right: 20
-forstatement (54)
+forstatement (55)
     on left: 36 37, on right: 22
-forprimitive (55)
+forprimitive (56)
     on left: 38 39, on right: 36 37
-ifstatement (56)
+ifstatement (57)
     on left: 40 41, on right: 21
-expr (57)
+expr (58)
     on left: 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59
     60, on right: 30 33 35 37 40 41 44 45 46 47 48 49 50 51 52 53 54
     55 56 57 58 59 60
@@ -174,24 +175,24 @@ State 0
 
     0 $accept: . compileunit $end
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
-    INT         shift, and go to state 9
-    DOUBLE      shift, and go to state 10
-    VOID        shift, and go to state 11
-    STRING      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    ';'         shift, and go to state 17
-    '{'         shift, and go to state 18
+    IDENTIFIER   shift, and go to state 1
+    IF           shift, and go to state 2
+    WHILE        shift, and go to state 3
+    FOR          shift, and go to state 4
+    BREAK        shift, and go to state 5
+    CONTINUE     shift, and go to state 6
+    RETURN       shift, and go to state 7
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+    NUMBER       shift, and go to state 12
+    '-'          shift, and go to state 13
+    PLUS         shift, and go to state 14
+    NOT          shift, and go to state 15
+    '('          shift, and go to state 16
+    ';'          shift, and go to state 17
+    '{'          shift, and go to state 18
 
     compileunit          go to state 19
     declaration          go to state 20
@@ -213,13 +214,6 @@ State 0
 
 State 1
 
-   42 expr: NUMBER .
-
-    $default  reduce using rule 42 (expr)
-
-
-State 2
-
    43 expr: IDENTIFIER .
    45     | IDENTIFIER . '=' expr
 
@@ -228,7 +222,7 @@ State 2
     $default  reduce using rule 43 (expr)
 
 
-State 3
+State 2
 
    40 ifstatement: IF . '(' expr ')' statement
    41            | IF . '(' expr ')' statement ELSE statement
@@ -236,14 +230,14 @@ State 3
     '('  shift, and go to state 36
 
 
-State 4
+State 3
 
    35 whilestatement: WHILE . '(' expr ')' statement
 
     '('  shift, and go to state 37
 
 
-State 5
+State 4
 
    36 forstatement: FOR . '(' forprimitive forprimitive ')' statement
    37             | FOR . '(' forprimitive forprimitive expr ')' statement
@@ -251,27 +245,27 @@ State 5
     '('  shift, and go to state 38
 
 
-State 6
+State 5
 
    29 breakstatement: BREAK . ';'
 
     ';'  shift, and go to state 39
 
 
-State 7
+State 6
 
    32 continuestatement: CONTINUE . ';'
 
     ';'  shift, and go to state 40
 
 
-State 8
+State 7
 
    30 returnstatement: RETURN . expr ';'
    31                | RETURN . ';'
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -281,40 +275,47 @@ State 8
     expr  go to state 42
 
 
-State 9
+State 8
 
-   12 typespecifier: INT .
+   12 typespecifier: INT_TYPE .
 
     $default  reduce using rule 12 (typespecifier)
 
 
-State 10
+State 9
 
-   13 typespecifier: DOUBLE .
+   13 typespecifier: DOUBLE_TYPE .
 
     $default  reduce using rule 13 (typespecifier)
 
 
-State 11
+State 10
 
-   15 typespecifier: VOID .
+   15 typespecifier: VOID_TYPE .
 
     $default  reduce using rule 15 (typespecifier)
 
 
-State 12
+State 11
 
-   14 typespecifier: STRING .
+   14 typespecifier: STRING_TYPE .
 
     $default  reduce using rule 14 (typespecifier)
+
+
+State 12
+
+   42 expr: NUMBER .
+
+    $default  reduce using rule 42 (expr)
 
 
 State 13
 
    60 expr: '-' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -327,8 +328,8 @@ State 14
 
    59 expr: PLUS . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -341,8 +342,8 @@ State 15
 
    58 expr: NOT . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -355,8 +356,8 @@ State 16
 
    44 expr: '(' . expr ')'
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -377,14 +378,14 @@ State 18
    27 compoundstatement: '{' . statement '}'
    28                  | '{' . '}'
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -412,25 +413,25 @@ State 19
     3 compileunit: compileunit . declaration
     4            | compileunit . statement
 
-    $end        shift, and go to state 49
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
-    INT         shift, and go to state 9
-    DOUBLE      shift, and go to state 10
-    VOID        shift, and go to state 11
-    STRING      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    ';'         shift, and go to state 17
-    '{'         shift, and go to state 18
+    $end         shift, and go to state 49
+    IDENTIFIER   shift, and go to state 1
+    IF           shift, and go to state 2
+    WHILE        shift, and go to state 3
+    FOR          shift, and go to state 4
+    BREAK        shift, and go to state 5
+    CONTINUE     shift, and go to state 6
+    RETURN       shift, and go to state 7
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+    NUMBER       shift, and go to state 12
+    '-'          shift, and go to state 13
+    PLUS         shift, and go to state 14
+    NOT          shift, and go to state 15
+    '('          shift, and go to state 16
+    ';'          shift, and go to state 17
+    '{'          shift, and go to state 18
 
     declaration          go to state 50
     functiondeclaration  go to state 21
@@ -584,8 +585,8 @@ State 35
 
    45 expr: IDENTIFIER '=' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -599,8 +600,8 @@ State 36
    40 ifstatement: IF '(' . expr ')' statement
    41            | IF '(' . expr ')' statement ELSE statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -613,8 +614,8 @@ State 37
 
    35 whilestatement: WHILE '(' . expr ')' statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -628,8 +629,8 @@ State 38
    36 forstatement: FOR '(' . forprimitive forprimitive ')' statement
    37             | FOR '(' . forprimitive forprimitive expr ')' statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -832,8 +833,8 @@ State 53
 
    57 expr: expr OR . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -846,8 +847,8 @@ State 54
 
    56 expr: expr AND . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -860,8 +861,8 @@ State 55
 
    50 expr: expr '<' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -874,8 +875,8 @@ State 56
 
    51 expr: expr '>' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -888,8 +889,8 @@ State 57
 
    54 expr: expr EQ . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -902,8 +903,8 @@ State 58
 
    55 expr: expr NE . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -916,8 +917,8 @@ State 59
 
    53 expr: expr GE . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -930,8 +931,8 @@ State 60
 
    52 expr: expr LE . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -944,8 +945,8 @@ State 61
 
    47 expr: expr '-' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -958,8 +959,8 @@ State 62
 
    46 expr: expr PLUS . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -972,8 +973,8 @@ State 63
 
    48 expr: expr '*' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -986,8 +987,8 @@ State 64
 
    49 expr: expr '/' . expr
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1117,8 +1118,8 @@ State 71
    36 forstatement: FOR '(' forprimitive . forprimitive ')' statement
    37             | FOR '(' forprimitive . forprimitive expr ')' statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1156,8 +1157,8 @@ State 75
 
    11 datadeclaration: typespecifier IDENTIFIER '=' . datavalue
 
-    NUMBER  shift, and go to state 93
-    STRING  shift, and go to state 94
+    STRING  shift, and go to state 93
+    NUMBER  shift, and go to state 94
 
     datavalue  go to state 95
 
@@ -1166,10 +1167,10 @@ State 76
 
     7 functiondeclaration: typespecifier IDENTIFIER '(' . datadeclarations ')' statement
 
-    INT     shift, and go to state 9
-    DOUBLE  shift, and go to state 10
-    VOID    shift, and go to state 11
-    STRING  shift, and go to state 12
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
 
     datadeclarations  go to state 96
     datadeclaration   go to state 97
@@ -1517,14 +1518,14 @@ State 90
    40 ifstatement: IF '(' expr ')' . statement
    41            | IF '(' expr ')' . statement ELSE statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1549,14 +1550,14 @@ State 91
 
    35 whilestatement: WHILE '(' expr ')' . statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1582,8 +1583,8 @@ State 92
    36 forstatement: FOR '(' forprimitive forprimitive . ')' statement
    37             | FOR '(' forprimitive forprimitive . expr ')' statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1595,16 +1596,16 @@ State 92
 
 State 93
 
-   16 datavalue: NUMBER .
+   17 datavalue: STRING .
 
-    $default  reduce using rule 16 (datavalue)
+    $default  reduce using rule 17 (datavalue)
 
 
 State 94
 
-   17 datavalue: STRING .
+   16 datavalue: NUMBER .
 
-    $default  reduce using rule 17 (datavalue)
+    $default  reduce using rule 16 (datavalue)
 
 
 State 95
@@ -1659,14 +1660,14 @@ State 101
 
    36 forstatement: FOR '(' forprimitive forprimitive ')' . statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1722,14 +1723,14 @@ State 103
 
     7 functiondeclaration: typespecifier IDENTIFIER '(' datadeclarations ')' . statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1754,10 +1755,10 @@ State 104
 
     9 datadeclarations: datadeclarations ',' . datadeclaration
 
-    INT     shift, and go to state 9
-    DOUBLE  shift, and go to state 10
-    VOID    shift, and go to state 11
-    STRING  shift, and go to state 12
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
 
     datadeclaration  go to state 110
     typespecifier    go to state 98
@@ -1776,14 +1777,14 @@ State 106
 
    41 ifstatement: IF '(' expr ')' statement ELSE . statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
@@ -1815,14 +1816,14 @@ State 108
 
    37 forstatement: FOR '(' forprimitive forprimitive expr ')' . statement
 
-    NUMBER      shift, and go to state 1
-    IDENTIFIER  shift, and go to state 2
-    IF          shift, and go to state 3
-    WHILE       shift, and go to state 4
-    FOR         shift, and go to state 5
-    BREAK       shift, and go to state 6
-    CONTINUE    shift, and go to state 7
-    RETURN      shift, and go to state 8
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
     '-'         shift, and go to state 13
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
