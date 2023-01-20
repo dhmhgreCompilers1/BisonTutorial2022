@@ -6,8 +6,8 @@
 #include <string>
 #define YY_DECL int yylex(yy::parser::semantic_type *yylval)
 typedef yy::parser::token TOKEN;
-
 %}
+INTEGER 0|[1-9][0-9]*
 
 %%
  std::string x;
@@ -45,8 +45,12 @@ typedef yy::parser::token TOKEN;
 "||" { return TOKEN::OR;}
 "!" { return TOKEN::NOT;}
 
-0|[1-9][0-9]* {		yylval->node=new NUMBER(TS_INT,yytext);
+{INTEGER} {		yylval->node=new NUMBER(TS_INT,yytext);
 					return TOKEN::NUMBER;}
+
+([+-]?{INTEGER}?\.{INTEGER}E[+-]?{INTEGER})|([+-]?{INTEGER}\.{INTEGER}?E[+-]?{INTEGER}) { yylval->node=new NUMBER(TS_DOUBLE,yytext);
+																							return TOKEN::NUMBER; 
+																					    }
 
 [a-zA-Z][a-zA-Z0-9_]* { x = string(yytext);
 						s= g_symbolTable->GetEntity(x);
