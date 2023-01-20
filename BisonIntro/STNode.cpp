@@ -2,6 +2,7 @@
 const char* g_nodenames[] = {
 	"NUMBER",
 	"IDENTIFIER",
+	"TYPESPECIFIER",
 	"COMPILEUNIT",
 	"DECLARATION",
 	"FUNCTIONDECLARATION",
@@ -10,6 +11,15 @@ const char* g_nodenames[] = {
 	"STATEMENT",
 	"COMPOUNDSTATEMENT",
 	"BREAKSTATEMENT",
+	"RETURNSTATEMENT",
+	"CONTINUESTATEMENT",
+	"EXPRESSIONSTATEMENT",
+	"EMPTYSTATEMENT",
+	"WHILESTATEMENT",
+	"FORSTATEMENT",
+	"FORPRIMITIVE",
+	"IFSTATEMENT",
+	"DATAVALUE",
 	"ADDITION",
 	"ASSIGNMENT",
 	"SUBTRACTION",
@@ -132,6 +142,69 @@ BreakStatement::BreakStatement()
 	:STNode(NT_BREAKSTATEMENT) {	
 }
 
+ReturnStatement::ReturnStatement(STNode* arg1)
+	:STNode(NT_RETURNSTATEMENT) {
+	if (arg1 != nullptr) {
+		AddChild(arg1);
+	}
+}
+
+ContinueStatement::ContinueStatement(STNode* arg1)
+	:STNode(NT_CONTINUESTATEMENT) {
+	if (arg1 != nullptr) {
+		AddChild(arg1);
+	}
+}
+
+ExpressionStatement::ExpressionStatement(STNode* arg1)
+	:STNode(NT_EXPRESSIONSTATEMENT){
+	AddChild(arg1);
+}
+
+EmptyStatement::EmptyStatement()
+	:STNode(NT_EMPTYSTATEMENT) {	
+}
+
+WhileStatement::WhileStatement(STNode* cond, STNode* st)
+	:STNode(NT_WHILESTATEMENT){
+	AddChild(cond);
+	AddChild(st);
+}
+
+ForStatement::ForStatement(STNode* forpr1, STNode* forpr2, STNode* stat)
+	:STNode(NT_FORSTATEMENT){
+	AddChild(forpr1);
+	AddChild(forpr2);
+	AddChild(stat);
+}
+
+ForStatement::ForStatement(STNode* forpr1, STNode* forpr2, STNode* expr, STNode* stat)
+	:STNode(NT_FORSTATEMENT){
+	AddChild(forpr1);
+	AddChild(forpr2);
+	AddChild(expr);
+	AddChild(stat);
+}
+
+ForPrimitive::ForPrimitive(STNode* arg)
+	:STNode(NT_FORPRIMITIVE){
+	AddChild(arg);
+}
+
+IfStatement::IfStatement(STNode* expr, STNode* trstat, STNode* fstat)
+	:STNode(NT_IFSTATEMENT){
+	AddChild(expr);
+	AddChild(trstat);
+	if (fstat != nullptr) {
+		AddChild(fstat);
+	}
+}
+
+DataValue::DataValue(STNode* arg)
+	:STNode(NT_DATAVALUE){
+	AddChild(arg);
+}
+
 Addition::Addition(STNode* left, STNode* right) :
 	STNode(NT_ADDITION) {
 	AddChild(left);
@@ -162,6 +235,11 @@ Division::Division(STNode* left, STNode* right) :
 	STNode(NT_DIVISION) {
 	AddChild(left);
 	AddChild(right);
+}
+
+TypeSpecfifier::TypeSpecfifier(TYPESPECIFIER typespec)
+	:STNode(NT_TYPESPECIFIER){
+	m_typespec = typespec;
 }
 
 NUMBER::NUMBER(char* number) :STNode(NT_NUMBER) {

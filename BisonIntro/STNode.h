@@ -9,6 +9,7 @@ typedef enum nodetype
 {
 	NT_NUMBER,
 	NT_IDENTIFIER,
+	NT_TYPESPECIFIER,
 	NT_COMPILEUNIT,
 	NT_DECLARATION,
 	NT_FUNCTIONDECLARATION,
@@ -16,7 +17,16 @@ typedef enum nodetype
 	NT_DATADECLARATION,
 	NT_COMPOUNDSTATEMENT,
 	NT_BREAKSTATEMENT,
+	NT_RETURNSTATEMENT,
+	NT_CONTINUESTATEMENT,
+	NT_EXPRESSIONSTATEMENT,
 	NT_STATEMENT,
+	NT_EMPTYSTATEMENT,
+	NT_WHILESTATEMENT,
+	NT_FORSTATEMENT,
+	NT_FORPRIMITIVE,
+	NT_IFSTATEMENT,
+	NT_DATAVALUE,
 	NT_ADDITION,
 	NT_ASSIGNMENT,
 	NT_SUBTRACTION,
@@ -37,6 +47,10 @@ typedef enum nodetype
 	NT_PARENTHESIS
 } NODETYPE;
 
+enum TYPESPECIFIER
+{
+	TS_VOID, TS_DOUBLE,TS_INT, TS_STRING
+};
 
 
 
@@ -118,6 +132,71 @@ public:
 	double EvaluateTree(STNode* parent) override;
 private:
 };
+
+class ReturnStatement : public STNode {
+public:
+	ReturnStatement(STNode* arg1 = nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class ContinueStatement : public STNode {
+public:
+	ContinueStatement(STNode* arg1 = nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class ExpressionStatement : public STNode {
+public:
+	ExpressionStatement(STNode* arg1);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class EmptyStatement : public STNode {
+public:
+	EmptyStatement();
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class WhileStatement : public STNode {
+public:
+	WhileStatement(STNode *cond, STNode*st);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class ForStatement : public STNode {
+public:
+	ForStatement(STNode* forpr1, STNode* forpr2, STNode *stat);
+	ForStatement(STNode* forpr1, STNode* forpr2,STNode *expr, STNode* stat);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class ForPrimitive : public STNode {
+public:
+	ForPrimitive(STNode* arg);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class IfStatement : public STNode {
+public:
+	IfStatement(STNode* expr, STNode* trstat, STNode* fstat=nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class DataValue : public STNode {
+public:
+	DataValue(STNode* arg);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
 /*
 
 typespecifier : INT
@@ -125,42 +204,7 @@ typespecifier : INT
 			  | STRING
 			  | VOID
 			  ;
-
-datavalue : NUMBER
-		  | STRING
-		  ;
-
-breakstatement : BREAK ';'
-			   ;
-
-returnstatement : RETURN expr ';'
-				| RETURN ';'
-				;
-
-continuestatement : CONTINUE ';'
-				  ;
-
-exprstatement : expr ';'
-			  ;
-
-emptystatement : ';'
-			   ;
-
-whilestatement : WHILE '(' expr ')' statement
-			   ;
-
-forstatement : FOR '(' forprimitive forprimitive ')' statement
-			 | FOR '(' forprimitive forprimitive expr ')' statement
-			 ;
-
-forprimitive : exprstatement
-			  | emptystatement
-			  ;
-
-ifstatement : IF '(' expr ')' statement %prec IFRULE
-			| IF '(' expr ')' statement ELSE statement
-			;
- *
+			  
  *
  */
 
@@ -288,6 +332,16 @@ class IDENTIFIER : public STNode {
 public:
 	IDENTIFIER(string name);
 	string Name() { return m_name; }
+	string GetGraphVizLabel() override;
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class TypeSpecfifier : public STNode {
+	enum TYPESPECIFIER m_typespec;
+public:
+	TypeSpecfifier(enum TYPESPECIFIER m_typespec);
+	enum TYPESPECIFIER Type() { return m_typespec; }
 	string GetGraphVizLabel() override;
 	double EvaluateTree(STNode* parent) override;
 private:
