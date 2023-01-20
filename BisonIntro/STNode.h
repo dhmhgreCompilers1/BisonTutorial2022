@@ -8,6 +8,9 @@ using namespace std;
 typedef union DataValue{
 	int i;
 	double d;
+	DataValue(){}
+	DataValue(int _i) :i(_i) {}
+	DataValue(double _d) :d(_d) {}
 }DATAVALUE;
 
 typedef enum nodetype
@@ -69,7 +72,7 @@ public:
 
 	virtual void PrintSyntaxTree(ofstream* dotfile, STNode* parent);
 
-	virtual double EvaluateTree(STNode* parent);
+	virtual DATAVALUE EvaluateTree(STNode* parent);
 
 protected:
 	list<STNode*>* m_children;
@@ -84,14 +87,14 @@ extern STNode* g_root;
 class CompileUnit : public STNode {
 public:
 	CompileUnit(STNode* left, STNode* right=nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Declaration : public STNode {
 public:
 	Declaration(STNode* arg);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -100,76 +103,76 @@ class FunctionDeclaration : public STNode
 public:
 	FunctionDeclaration(STNode* arg1, STNode* arg2,
 		STNode* arg3, STNode* arg4);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class DataDeclarations : public STNode{
 public:
 	DataDeclarations(STNode* arg1, STNode* arg2 = nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 class DataDeclaration : public STNode {
 public:
 	DataDeclaration(STNode* arg1, STNode* arg2, STNode* arg3 = nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Statement : public STNode{
 public:
 	Statement(STNode* arg1);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class CompoundStatement : public STNode {
 public:
 	CompoundStatement(STNode* arg1=nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class BreakStatement : public STNode {
 public:
 	BreakStatement();
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class ReturnStatement : public STNode {
 public:
 	ReturnStatement(STNode* arg1 = nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class ContinueStatement : public STNode {
 public:
-	ContinueStatement(STNode* arg1 = nullptr);
-	double EvaluateTree(STNode* parent) override;
+	ContinueStatement();
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class ExpressionStatement : public STNode {
 public:
 	ExpressionStatement(STNode* arg1);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class EmptyStatement : public STNode {
 public:
 	EmptyStatement();
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class WhileStatement : public STNode {
 public:
 	WhileStatement(STNode *cond, STNode*st);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -177,49 +180,49 @@ class ForStatement : public STNode {
 public:
 	ForStatement(STNode* forpr1, STNode* forpr2, STNode *stat);
 	ForStatement(STNode* forpr1, STNode* forpr2,STNode *expr, STNode* stat);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class ForPrimitive : public STNode {
 public:
 	ForPrimitive(STNode* arg);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class IfStatement : public STNode {
 public:
 	IfStatement(STNode* expr, STNode* trstat, STNode* fstat=nullptr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
-class DataValue : public STNode {
+class CDataValue : public STNode {
 public:
-	DataValue(STNode* arg);
-	double EvaluateTree(STNode* parent) override;
+	CDataValue(STNode* arg);
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Addition : public STNode {
 public:
 	Addition(STNode* left, STNode* right);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Parenthesis : public STNode {
 public:
 	Parenthesis(STNode* arg);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class Assignment : public STNode {
 public:
 	Assignment(STNode* id, STNode* expr);
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -314,9 +317,9 @@ class NUMBER : public STNode {
 	DATAVALUE m_value;
 	string m_number;
 public:
-	NUMBER(char* number);
+	NUMBER(TYPESPECIFIER type,char* number);
 	string GetGraphVizLabel() override;
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -326,17 +329,17 @@ public:
 	IDENTIFIER(string name);
 	string Name() { return m_name; }
 	string GetGraphVizLabel() override;
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 
 class CTypeSpecifier : public STNode {
 	TYPESPECIFIER m_typespec;
 public:
-	CTypeSpecifier(TYPESPECIFIER m_typespec,char *text);
+	CTypeSpecifier(TYPESPECIFIER m_typespec);
 	TYPESPECIFIER Type() { return m_typespec; }
 	string GetGraphVizLabel() override;
-	double EvaluateTree(STNode* parent) override;
+	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };
 

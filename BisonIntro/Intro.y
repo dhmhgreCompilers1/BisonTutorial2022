@@ -34,7 +34,7 @@ using namespace std;
 %nonassoc NOT UNARYOP ELSE
 %type <node> NUMBER STRING IDENTIFIER expr compileunit declaration statement datadeclaration functiondeclaration
 typespecifier datadeclarations datavalue exprstatement emptystatement whilestatement ifstatement
-forstatement breakstatement returnstatement continuestatement compoundstatement
+forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive
 %%
 
 compileunit : declaration  { $$ =g_root= new CompileUnit($1); }
@@ -68,52 +68,52 @@ datavalue : NUMBER  {$$=$1;}
 		  | STRING  {$$=$1; }
 		  ;
 
-statement : exprstatement	
-		  | emptystatement
-		  | whilestatement
-		  | ifstatement
-		  | forstatement
-		  | breakstatement
-		  | returnstatement
-		  | continuestatement
-		  | compoundstatement
+statement : exprstatement	  { $$ = new Statement($1);  }
+		  | emptystatement    { $$ = new Statement($1);  }
+		  | whilestatement    { $$ = new Statement($1);  }
+		  | ifstatement       { $$ = new Statement($1);  }
+		  | forstatement      { $$ = new Statement($1);  }
+		  | breakstatement    { $$ = new Statement($1);  }
+		  | returnstatement   { $$ = new Statement($1);  }
+		  | continuestatement { $$ = new Statement($1);  }
+		  | compoundstatement { $$ = new Statement($1);  }
 		  ;
 
-compoundstatement : '{' statement '}'
-				  | '{' '}'
+compoundstatement : '{' statement '}' { $$ = new CompoundStatement($2);  }
+				  | '{' '}'			  { $$ = new CompoundStatement();  }
 				  ;
 
 
 
-breakstatement : BREAK ';'
+breakstatement : BREAK ';' { $$ = new BreakStatement();  }
 			   ;
 
-returnstatement : RETURN expr ';'
-				| RETURN ';'
+returnstatement : RETURN expr ';' { $$ = new ReturnStatement($2);  }
+				| RETURN ';'	  { $$ = new ReturnStatement();  }
 			    ;
 
-continuestatement : CONTINUE ';'
+continuestatement : CONTINUE ';' { $$ = new ContinueStatement();  }
 			      ;
 
-exprstatement : expr ';'
+exprstatement : expr ';' { $$ = new ExpressionStatement($1);  }
 			  ;
 
-emptystatement : ';'
+emptystatement : ';'	{ $$ = new EmptyStatement();  }
 			   ;
 
-whilestatement : WHILE '(' expr ')' statement
+whilestatement : WHILE '(' expr ')' statement  { $$ =new WhileStatement($3,$5); }
 			   ;
 
-forstatement : FOR '(' forprimitive forprimitive ')' statement
-			 | FOR '(' forprimitive forprimitive expr ')' statement
+forstatement : FOR '(' forprimitive forprimitive ')' statement		{ $$ =new ForStatement($3, $4, $6); }
+			 | FOR '(' forprimitive forprimitive expr ')' statement { $$ =new ForStatement($3, $4, $5,$7); }
 			 ;
 
-forprimitive : exprstatement
-			  | emptystatement
+forprimitive : exprstatement   {$$ =new ForPrimitive($1);}
+			  | emptystatement {$$ =new ForPrimitive($1);}
 			  ;
 
-ifstatement : IF '(' expr ')' statement %prec IFRULE
-			| IF '(' expr ')' statement ELSE statement
+ifstatement : IF '(' expr ')' statement %prec IFRULE	{ $$= new IfStatement($3,$5); }
+			| IF '(' expr ')' statement ELSE statement  { $$= new IfStatement($3,$5,$7); }
 			;
 
 

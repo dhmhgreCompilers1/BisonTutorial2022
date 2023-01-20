@@ -1,7 +1,7 @@
 #include "STNode.h"
 #include "SymbolTable.h"
 
-double STNode::EvaluateTree(STNode* parent) {
+DATAVALUE STNode::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 
 	for (it = m_children->begin(); it != m_children->end(); it++) {
@@ -10,33 +10,29 @@ double STNode::EvaluateTree(STNode* parent) {
 	return 0;
 }
 
-double NUMBER::EvaluateTree(STNode* parent) {
-	return m_value;
-}
-
-double IDENTIFIER::EvaluateTree(STNode* parent) {
+DATAVALUE IDENTIFIER::EvaluateTree(STNode* parent) {
 	Symbol* s = g_symbolTable->GetEntity(m_name);
 	return s->m_value;
 }
 
-double Addition::EvaluateTree(STNode* parent) {
+DATAVALUE Addition::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 	double result = 0;
 	it = m_children->begin();
-	result += (*it)->EvaluateTree(this);
+	//result += (*it)->EvaluateTree(this);
 	it++;
-	result += (*it)->EvaluateTree(this);
-	return result;
+	//result += (*it)->EvaluateTree(this);
+	return 0;
 }
 
-double Parenthesis::EvaluateTree(STNode* parent) {
+DATAVALUE Parenthesis::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 	it = m_children->begin();
 
 	return (*it)->EvaluateTree(this);
 }
 
-double Assignment::EvaluateTree(STNode* parent) {
+DATAVALUE Assignment::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 	double result = 0;
 	Symbol* variable;
@@ -46,8 +42,8 @@ double Assignment::EvaluateTree(STNode* parent) {
 	name = ((IDENTIFIER*)(*it))->Name();
 	variable = g_symbolTable->GetEntity(name);
 	it++;
-	result += (*it)->EvaluateTree(this);
+	//result += (*it)->EvaluateTree(this);
 	variable->m_value = result;
 	printf("%s = %f\n", name.c_str(), result);
-	return result;
+	return 0;
 }

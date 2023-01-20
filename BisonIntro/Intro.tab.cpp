@@ -556,6 +556,150 @@ namespace yy {
     {(yyval.node)=(yysemantic_stack_[(1) - (1)].node); }
     break;
 
+  case 19:
+/* Line 670 of lalr1.cc  */
+#line 71 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 20:
+/* Line 670 of lalr1.cc  */
+#line 72 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 21:
+/* Line 670 of lalr1.cc  */
+#line 73 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 22:
+/* Line 670 of lalr1.cc  */
+#line 74 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 23:
+/* Line 670 of lalr1.cc  */
+#line 75 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 24:
+/* Line 670 of lalr1.cc  */
+#line 76 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 25:
+/* Line 670 of lalr1.cc  */
+#line 77 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 26:
+/* Line 670 of lalr1.cc  */
+#line 78 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 27:
+/* Line 670 of lalr1.cc  */
+#line 79 "Intro.y"
+    { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
+    break;
+
+  case 28:
+/* Line 670 of lalr1.cc  */
+#line 82 "Intro.y"
+    { (yyval.node) = new CompoundStatement((yysemantic_stack_[(3) - (2)].node));  }
+    break;
+
+  case 29:
+/* Line 670 of lalr1.cc  */
+#line 83 "Intro.y"
+    { (yyval.node) = new CompoundStatement();  }
+    break;
+
+  case 30:
+/* Line 670 of lalr1.cc  */
+#line 88 "Intro.y"
+    { (yyval.node) = new BreakStatement();  }
+    break;
+
+  case 31:
+/* Line 670 of lalr1.cc  */
+#line 91 "Intro.y"
+    { (yyval.node) = new ReturnStatement((yysemantic_stack_[(3) - (2)].node));  }
+    break;
+
+  case 32:
+/* Line 670 of lalr1.cc  */
+#line 92 "Intro.y"
+    { (yyval.node) = new ReturnStatement();  }
+    break;
+
+  case 33:
+/* Line 670 of lalr1.cc  */
+#line 95 "Intro.y"
+    { (yyval.node) = new ContinueStatement();  }
+    break;
+
+  case 34:
+/* Line 670 of lalr1.cc  */
+#line 98 "Intro.y"
+    { (yyval.node) = new ExpressionStatement((yysemantic_stack_[(2) - (1)].node));  }
+    break;
+
+  case 35:
+/* Line 670 of lalr1.cc  */
+#line 101 "Intro.y"
+    { (yyval.node) = new EmptyStatement();  }
+    break;
+
+  case 36:
+/* Line 670 of lalr1.cc  */
+#line 104 "Intro.y"
+    { (yyval.node) =new WhileStatement((yysemantic_stack_[(5) - (3)].node),(yysemantic_stack_[(5) - (5)].node)); }
+    break;
+
+  case 37:
+/* Line 670 of lalr1.cc  */
+#line 107 "Intro.y"
+    { (yyval.node) =new ForStatement((yysemantic_stack_[(6) - (3)].node), (yysemantic_stack_[(6) - (4)].node), (yysemantic_stack_[(6) - (6)].node)); }
+    break;
+
+  case 38:
+/* Line 670 of lalr1.cc  */
+#line 108 "Intro.y"
+    { (yyval.node) =new ForStatement((yysemantic_stack_[(7) - (3)].node), (yysemantic_stack_[(7) - (4)].node), (yysemantic_stack_[(7) - (5)].node),(yysemantic_stack_[(7) - (7)].node)); }
+    break;
+
+  case 39:
+/* Line 670 of lalr1.cc  */
+#line 111 "Intro.y"
+    {(yyval.node) =new ForPrimitive((yysemantic_stack_[(1) - (1)].node));}
+    break;
+
+  case 40:
+/* Line 670 of lalr1.cc  */
+#line 112 "Intro.y"
+    {(yyval.node) =new ForPrimitive((yysemantic_stack_[(1) - (1)].node));}
+    break;
+
+  case 41:
+/* Line 670 of lalr1.cc  */
+#line 115 "Intro.y"
+    { (yyval.node)= new IfStatement((yysemantic_stack_[(5) - (3)].node),(yysemantic_stack_[(5) - (5)].node)); }
+    break;
+
+  case 42:
+/* Line 670 of lalr1.cc  */
+#line 116 "Intro.y"
+    { (yyval.node)= new IfStatement((yysemantic_stack_[(7) - (3)].node),(yysemantic_stack_[(7) - (5)].node),(yysemantic_stack_[(7) - (7)].node)); }
+    break;
+
   case 43:
 /* Line 670 of lalr1.cc  */
 #line 120 "Intro.y"
@@ -672,7 +816,7 @@ namespace yy {
 
 
 /* Line 670 of lalr1.cc  */
-#line 676 "Intro.tab.cpp"
+#line 820 "Intro.tab.cpp"
       default:
         break;
       }
@@ -1330,7 +1474,7 @@ namespace yy {
 
 } // yy
 /* Line 1141 of lalr1.cc  */
-#line 1334 "Intro.tab.cpp"
+#line 1478 "Intro.tab.cpp"
 /* Line 1142 of lalr1.cc  */
 #line 143 "Intro.y"
 

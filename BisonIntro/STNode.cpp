@@ -62,8 +62,7 @@ void STNode::PrintSyntaxTree(ofstream* dotfile, STNode* parent) {
 		(*dotfile) << "\t\"" << parent->GetGraphVizLabel() <<
 			"\"->\"" << GetGraphVizLabel() << "\";\n";
 	}
-	else
-	{
+	else {
 		(*dotfile) << "digraph G {\n";
 	}
 
@@ -71,8 +70,7 @@ void STNode::PrintSyntaxTree(ofstream* dotfile, STNode* parent) {
 		(*it)->PrintSyntaxTree(dotfile, this);
 	}
 
-	if (parent == nullptr)
-	{
+	if (parent == nullptr) {
 		(*dotfile) << "}";
 	}
 }
@@ -97,12 +95,12 @@ CompileUnit::CompileUnit(STNode* left, STNode* right) :
 
 Declaration::Declaration(STNode* arg) :
 	STNode(NT_DECLARATION) {
-	AddChild(arg);	
+	AddChild(arg);
 }
 
 FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2,
-	STNode* arg3, STNode* arg4):
-STNode(NT_FUNCTIONDECLARATION){
+	STNode* arg3, STNode* arg4) :
+	STNode(NT_FUNCTIONDECLARATION) {
 	AddChild(arg1);
 	AddChild(arg2);
 	AddChild(arg3);
@@ -110,14 +108,14 @@ STNode(NT_FUNCTIONDECLARATION){
 }
 
 DataDeclarations::DataDeclarations(STNode* arg1, STNode* arg2)
-	:STNode(NT_DATADECLARATIONS){
+	:STNode(NT_DATADECLARATIONS) {
 	AddChild(arg1);
 	if (arg2 != nullptr) {
 		AddChild(arg2);
 	}
 }
 
-DataDeclaration::DataDeclaration(STNode* arg1, STNode* arg2,  STNode* arg3)
+DataDeclaration::DataDeclaration(STNode* arg1, STNode* arg2, STNode* arg3)
 	:STNode(NT_DATADECLARATION) {
 	AddChild(arg1);
 	AddChild(arg2);
@@ -126,20 +124,20 @@ DataDeclaration::DataDeclaration(STNode* arg1, STNode* arg2,  STNode* arg3)
 	}
 }
 
-Statement::Statement(STNode* arg1):
-STNode(NT_STATEMENT){
+Statement::Statement(STNode* arg1) :
+	STNode(NT_STATEMENT) {
 	AddChild(arg1);
 }
 
 CompoundStatement::CompoundStatement(STNode* arg1)
-	:STNode(NT_COMPOUNDSTATEMENT){
+	:STNode(NT_COMPOUNDSTATEMENT) {
 	if (arg1 != nullptr) {
 		AddChild(arg1);
 	}
 }
 
 BreakStatement::BreakStatement()
-	:STNode(NT_BREAKSTATEMENT) {	
+	:STNode(NT_BREAKSTATEMENT) {
 }
 
 ReturnStatement::ReturnStatement(STNode* arg1)
@@ -149,37 +147,35 @@ ReturnStatement::ReturnStatement(STNode* arg1)
 	}
 }
 
-ContinueStatement::ContinueStatement(STNode* arg1)
+ContinueStatement::ContinueStatement()
 	:STNode(NT_CONTINUESTATEMENT) {
-	if (arg1 != nullptr) {
-		AddChild(arg1);
-	}
+
 }
 
 ExpressionStatement::ExpressionStatement(STNode* arg1)
-	:STNode(NT_EXPRESSIONSTATEMENT){
+	:STNode(NT_EXPRESSIONSTATEMENT) {
 	AddChild(arg1);
 }
 
 EmptyStatement::EmptyStatement()
-	:STNode(NT_EMPTYSTATEMENT) {	
+	:STNode(NT_EMPTYSTATEMENT) {
 }
 
 WhileStatement::WhileStatement(STNode* cond, STNode* st)
-	:STNode(NT_WHILESTATEMENT){
+	:STNode(NT_WHILESTATEMENT) {
 	AddChild(cond);
 	AddChild(st);
 }
 
 ForStatement::ForStatement(STNode* forpr1, STNode* forpr2, STNode* stat)
-	:STNode(NT_FORSTATEMENT){
+	:STNode(NT_FORSTATEMENT) {
 	AddChild(forpr1);
 	AddChild(forpr2);
 	AddChild(stat);
 }
 
 ForStatement::ForStatement(STNode* forpr1, STNode* forpr2, STNode* expr, STNode* stat)
-	:STNode(NT_FORSTATEMENT){
+	:STNode(NT_FORSTATEMENT) {
 	AddChild(forpr1);
 	AddChild(forpr2);
 	AddChild(expr);
@@ -187,12 +183,12 @@ ForStatement::ForStatement(STNode* forpr1, STNode* forpr2, STNode* expr, STNode*
 }
 
 ForPrimitive::ForPrimitive(STNode* arg)
-	:STNode(NT_FORPRIMITIVE){
+	:STNode(NT_FORPRIMITIVE) {
 	AddChild(arg);
 }
 
 IfStatement::IfStatement(STNode* expr, STNode* trstat, STNode* fstat)
-	:STNode(NT_IFSTATEMENT){
+	:STNode(NT_IFSTATEMENT) {
 	AddChild(expr);
 	AddChild(trstat);
 	if (fstat != nullptr) {
@@ -200,8 +196,8 @@ IfStatement::IfStatement(STNode* expr, STNode* trstat, STNode* fstat)
 	}
 }
 
-DataValue::DataValue(STNode* arg)
-	:STNode(NT_DATAVALUE){
+CDataValue::CDataValue(STNode* arg)
+	:STNode(NT_DATAVALUE) {
 	AddChild(arg);
 }
 
@@ -211,7 +207,7 @@ Addition::Addition(STNode* left, STNode* right) :
 	AddChild(right);
 }
 
-Parenthesis::Parenthesis(STNode* arg) : STNode(NT_PARENTHESIS){
+Parenthesis::Parenthesis(STNode* arg) : STNode(NT_PARENTHESIS) {
 	AddChild(arg);
 }
 
@@ -237,14 +233,24 @@ Division::Division(STNode* left, STNode* right) :
 	AddChild(right);
 }
 
-TypeSpecifier::TypeSpecifier(TYPESPECIFIER typespec)
-	:STNode(NT_TYPESPECIFIER){
+CTypeSpecifier::CTypeSpecifier(TYPESPECIFIER typespec)
+	:STNode(NT_TYPESPECIFIER) {
 	m_typespec = typespec;
 }
 
-NUMBER::NUMBER(char* number) :STNode(NT_NUMBER) {
+NUMBER::NUMBER(TYPESPECIFIER type, char* number) :STNode(NT_NUMBER) {
 	m_number = number;
-	m_value = atoi(number);
+	switch (type) {
+	case TS_INT:
+		m_value.i = atoi(number);
+		break;
+	case TS_DOUBLE:
+		m_value.d = atof(number);
+		break;
+	default:
+		;
+	}
+
 }
 
 IDENTIFIER::IDENTIFIER(string name) :STNode(NT_IDENTIFIER) {

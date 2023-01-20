@@ -7,6 +7,11 @@ using namespace std;
 extern FILE* yyin;
 extern int yyparse();
 
+class A
+{
+	
+};
+
 
 void main(int argc, char *argv[]){
 	ofstream* dotfile;
@@ -24,4 +29,5 @@ void main(int argc, char *argv[]){
 	dotfile->close();
 	system("dot.exe -Tgif SyntaxTree.dot -o SyntaxTree.gif");
 
+	class A a;
 }
