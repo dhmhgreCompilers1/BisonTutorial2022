@@ -9,6 +9,14 @@ typedef enum nodetype
 {
 	NT_NUMBER,
 	NT_IDENTIFIER,
+	NT_COMPILEUNIT,
+	NT_DECLARATION,
+	NT_FUNCTIONDECLARATION,
+	NT_DATADECLARATIONS,
+	NT_DATADECLARATION,
+	NT_COMPOUNDSTATEMENT,
+	NT_BREAKSTATEMENT,
+	NT_STATEMENT,
 	NT_ADDITION,
 	NT_ASSIGNMENT,
 	NT_SUBTRACTION,
@@ -54,12 +62,108 @@ protected:
 
 extern STNode* g_root;
 
-class ExprList : public STNode {
+class CompileUnit : public STNode {
 public:
-	ExprList(STNode* expr);
-	ExprList(STNode* explist, STNode* expr);
+	CompileUnit(STNode* left, STNode* right=nullptr);
+	double EvaluateTree(STNode* parent) override;
 private:
 };
+
+class Declaration : public STNode {
+public:
+	Declaration(STNode* arg);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class FunctionDeclaration : public STNode
+{
+public:
+	FunctionDeclaration(STNode* arg1, STNode* arg2,
+		STNode* arg3, STNode* arg4);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class DataDeclarations : public STNode{
+public:
+	DataDeclarations(STNode* arg1, STNode* arg2 = nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+class DataDeclaration : public STNode {
+public:
+	DataDeclaration(STNode* arg1, STNode* arg2, STNode* arg3 = nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class Statement : public STNode{
+public:
+	Statement(STNode* arg1);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class CompoundStatement : public STNode {
+public:
+	CompoundStatement(STNode* arg1=nullptr);
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+
+class BreakStatement : public STNode {
+public:
+	BreakStatement();
+	double EvaluateTree(STNode* parent) override;
+private:
+};
+/*
+
+typespecifier : INT
+			  | DOUBLE
+			  | STRING
+			  | VOID
+			  ;
+
+datavalue : NUMBER
+		  | STRING
+		  ;
+
+breakstatement : BREAK ';'
+			   ;
+
+returnstatement : RETURN expr ';'
+				| RETURN ';'
+				;
+
+continuestatement : CONTINUE ';'
+				  ;
+
+exprstatement : expr ';'
+			  ;
+
+emptystatement : ';'
+			   ;
+
+whilestatement : WHILE '(' expr ')' statement
+			   ;
+
+forstatement : FOR '(' forprimitive forprimitive ')' statement
+			 | FOR '(' forprimitive forprimitive expr ')' statement
+			 ;
+
+forprimitive : exprstatement
+			  | emptystatement
+			  ;
+
+ifstatement : IF '(' expr ')' statement %prec IFRULE
+			| IF '(' expr ')' statement ELSE statement
+			;
+ *
+ *
+ */
+
 
 class Addition : public STNode {
 public:

@@ -2,6 +2,14 @@
 const char* g_nodenames[] = {
 	"NUMBER",
 	"IDENTIFIER",
+	"COMPILEUNIT",
+	"DECLARATION",
+	"FUNCTIONDECLARATION",
+	"DATADECLARATIONS",
+	"DATADECLARATION",
+	"STATEMENT",
+	"COMPOUNDSTATEMENT",
+	"BREAKSTATEMENT",
 	"ADDITION",
 	"ASSIGNMENT",
 	"SUBTRACTION",
@@ -68,15 +76,61 @@ void STNode::AddChild(STNode* node) {
 	m_children->push_back(node);
 }
 
-ExprList::ExprList(STNode* expr) :STNode(NT_EXPRLIST) {
-	AddChild(expr);
+
+CompileUnit::CompileUnit(STNode* left, STNode* right) :
+	STNode(NT_COMPILEUNIT) {
+	AddChild(left);
+	if (right != nullptr) {
+		AddChild(right);
+	}
 }
 
-ExprList::ExprList(STNode* explist, STNode* expr) :STNode(NT_EXPRLIST) {
-	AddChild(explist);
-	AddChild(expr);
+Declaration::Declaration(STNode* arg) :
+	STNode(NT_DECLARATION) {
+	AddChild(arg);	
 }
 
+FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2,
+	STNode* arg3, STNode* arg4):
+STNode(NT_FUNCTIONDECLARATION){
+	AddChild(arg1);
+	AddChild(arg2);
+	AddChild(arg3);
+	AddChild(arg4);
+}
+
+DataDeclarations::DataDeclarations(STNode* arg1, STNode* arg2)
+	:STNode(NT_DATADECLARATIONS){
+	AddChild(arg1);
+	if (arg2 != nullptr) {
+		AddChild(arg2);
+	}
+}
+
+DataDeclaration::DataDeclaration(STNode* arg1, STNode* arg2,  STNode* arg3)
+	:STNode(NT_DATADECLARATION) {
+	AddChild(arg1);
+	AddChild(arg2);
+	if (arg3 != nullptr) {
+		AddChild(arg3);
+	}
+}
+
+Statement::Statement(STNode* arg1):
+STNode(NT_STATEMENT){
+	AddChild(arg1);
+}
+
+CompoundStatement::CompoundStatement(STNode* arg1)
+	:STNode(NT_COMPOUNDSTATEMENT){
+	if (arg1 != nullptr) {
+		AddChild(arg1);
+	}
+}
+
+BreakStatement::BreakStatement()
+	:STNode(NT_BREAKSTATEMENT) {	
+}
 
 Addition::Addition(STNode* left, STNode* right) :
 	STNode(NT_ADDITION) {
