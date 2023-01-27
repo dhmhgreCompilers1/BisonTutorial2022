@@ -13,7 +13,6 @@ void main(int argc, char *argv[]){
 	ofstream* dotfile;
 	g_symbolTable = new SymbolTable;
 	dotfile = new ofstream("SyntaxTree.dot", std::ofstream::out);
-	cout << "THis is a message";
 	FILE* f;
 	void* r;
 	yy::parser parser;
@@ -24,6 +23,8 @@ void main(int argc, char *argv[]){
 	g_root->PrintSyntaxTree(dotfile, nullptr);
 	dotfile->close();
 	system("dot.exe -Tgif SyntaxTree.dot -o SyntaxTree.gif");
+	g_root->EvaluateTree(nullptr);
+
 
 	
 }

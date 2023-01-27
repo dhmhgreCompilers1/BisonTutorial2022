@@ -248,6 +248,7 @@ CTypeSpecifier::CTypeSpecifier(TYPESPECIFIER typespec)
 
 NUMBER::NUMBER(TYPESPECIFIER type, char* number) :STNode(NT_NUMBER) {
 	m_number = number;
+	m_type = type;
 	switch (type) {
 	case TS_INT:
 		m_value.i = atoi(number);
@@ -264,6 +265,7 @@ NUMBER::NUMBER(TYPESPECIFIER type, char* number) :STNode(NT_NUMBER) {
 IDENTIFIER::IDENTIFIER(string name) :STNode(NT_IDENTIFIER) {
 	m_name = name;
 }
+
 
 string NUMBER::GetGraphVizLabel() {
 	return STNode::GetGraphVizLabel() + "_" + m_number;

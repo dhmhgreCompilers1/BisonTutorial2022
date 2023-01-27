@@ -9,7 +9,7 @@ extern SymbolTable* g_symbolTable;
 struct Symbol{
 	string m_name;
 	IDENTIFIER *m_identifier;
-	double m_value;
+	TypedDataValue m_value;
 
 	Symbol();
 };

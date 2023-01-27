@@ -1,7 +1,9 @@
+#include <iostream>
+
 #include "STNode.h"
 #include "SymbolTable.h"
 
-DATAVALUE STNode::EvaluateTree(STNode* parent) {
+TypedDataValue STNode::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 
 	for (it = m_children->begin(); it != m_children->end(); it++) {
@@ -10,40 +12,89 @@ DATAVALUE STNode::EvaluateTree(STNode* parent) {
 	return 0;
 }
 
-DATAVALUE IDENTIFIER::EvaluateTree(STNode* parent) {
+TypedDataValue IDENTIFIER::EvaluateTree(STNode* parent) {
 	Symbol* s = g_symbolTable->GetEntity(m_name);
 	return s->m_value;
 }
 
-DATAVALUE Addition::EvaluateTree(STNode* parent) {
-	list<STNode*>::iterator it;
-	double result = 0;
-	it = m_children->begin();
-	//result += (*it)->EvaluateTree(this);
-	it++;
-	//result += (*it)->EvaluateTree(this);
-	return 0;
+TypedDataValue NUMBER::EvaluateTree(STNode* parent){
+	return TypedDataValue(m_type,m_value);
 }
 
-DATAVALUE Parenthesis::EvaluateTree(STNode* parent) {
+
+TypedDataValue Addition::EvaluateTree(STNode* parent) {
+	list<STNode*>::iterator it;
+	TypedDataValue result = 0;
+	it = m_children->begin();
+	result = (*it)->EvaluateTree(this);
+	it++;
+	result = Evaluate(result,(*it)->EvaluateTree(this));
+	return result;
+}
+
+TypedDataValue Addition::Evaluate(TypedDataValue v1, TypedDataValue v2){
+	TypedDataValue result = 0;
+	switch (v1.m_type){
+	case  TS_INT:
+		if ( v2.m_type == TS_INT)		{
+			result.m_type = TS_INT;
+			result.m_value = v1.m_value.i + v2.m_value.i;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.i + v2.m_value.d;
+			return result;
+		}
+		break;
+	case TS_DOUBLE:
+		if (v2.m_type == TS_INT) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.i + v2.m_value.d;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.d + v2.m_value.d;
+			return result;
+		}
+		break;
+	default:
+		cout << "Incompatible addition arguments. Not supported operation\n";
+		exit(0);		
+	}
+	
+}
+
+
+TypedDataValue Parenthesis::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 	it = m_children->begin();
 
 	return (*it)->EvaluateTree(this);
 }
 
-DATAVALUE Assignment::EvaluateTree(STNode* parent) {
+TypedDataValue Assignment::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
-	double result = 0;
+	TypedDataValue result = 0;
 	Symbol* variable;
 	string name;
+
 
 	it = m_children->begin();
 	name = ((IDENTIFIER*)(*it))->Name();
 	variable = g_symbolTable->GetEntity(name);
 	it++;
-	//result += (*it)->EvaluateTree(this);
+	result = (*it)->EvaluateTree(this);
 	variable->m_value = result;
-	printf("%s = %f\n", name.c_str(), result);
+	switch (variable->m_value.m_type)	{
+	case TS_INT :
+		printf("%s = %d\n", name.c_str(), result.m_value.i);
+		break;
+	case TS_DOUBLE:
+		printf("%s = %f\n", name.c_str(), result.m_value.d);
+		break;
+	}
+	
 	return 0;
 }
