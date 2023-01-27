@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "STNode.h"
 #include "Intro.tab.h"
-extern int yylex(yy::parser::semantic_type *yylval);
+extern int yylex(yy::parser::semantic_type *yylval,yy::parser::location_type *yylloc);
 using namespace std;
 %}
 
@@ -14,6 +14,12 @@ using namespace std;
 }
 
 %verbose
+%locations
+
+%initial-action {
+// Filename for locations here
+@$.begin.filename = @$.end.filename = new std::string("test.txt");
+}
 %error-verbose
 
 %union{
@@ -34,7 +40,7 @@ using namespace std;
 %nonassoc NOT UNARYOP ELSE
 %type <node> NUMBER STRING IDENTIFIER expr compileunit declaration statement datadeclaration functiondeclaration
 typespecifier datadeclarations datavalue exprstatement emptystatement whilestatement ifstatement
-forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive
+forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive statementlist
 %%
 
 compileunit : declaration  { $$ =g_root= new CompileUnit($1); }
@@ -79,10 +85,13 @@ statement : exprstatement	  { $$ = new Statement($1);  }
 		  | compoundstatement { $$ = new Statement($1);  }
 		  ;
 
-compoundstatement : '{' statement '}' { $$ = new CompoundStatement($2);  }
+compoundstatement : '{' statementlist '}' { $$ = new CompoundStatement($2);  }
 				  | '{' '}'			  { $$ = new CompoundStatement();  }
 				  ;
 
+statementlist : statement				{ $$ = new StatementList($1);  }
+			 | statementlist statement	{ $$ = new StatementList($1,$2);  }
+			 ;
 
 
 breakstatement : BREAK ';' { $$ = new BreakStatement();  }

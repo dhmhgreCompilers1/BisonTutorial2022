@@ -24,6 +24,7 @@ typedef enum nodetype
 	NT_DATADECLARATIONS,
 	NT_DATADECLARATION,
 	NT_COMPOUNDSTATEMENT,
+	NT_STATEMENTLIST,
 	NT_BREAKSTATEMENT,
 	NT_RETURNSTATEMENT,
 	NT_CONTINUESTATEMENT,
@@ -130,6 +131,13 @@ private:
 class CompoundStatement : public STNode {
 public:
 	CompoundStatement(STNode* arg1=nullptr);
+	DATAVALUE EvaluateTree(STNode* parent) override;
+private:
+};
+
+class StatementList : public STNode {
+public:
+	StatementList(STNode *arg0, STNode* arg1 = nullptr);
 	DATAVALUE EvaluateTree(STNode* parent) override;
 private:
 };

@@ -10,6 +10,7 @@ const char* g_nodenames[] = {
 	"DATADECLARATION",
 	"STATEMENT",
 	"COMPOUNDSTATEMENT",
+	"NT_STATEMENTLIST",
 	"BREAKSTATEMENT",
 	"RETURNSTATEMENT",
 	"CONTINUESTATEMENT",
@@ -136,6 +137,13 @@ CompoundStatement::CompoundStatement(STNode* arg1)
 	}
 }
 
+StatementList::StatementList(STNode* arg1,STNode *arg2)
+	:STNode(NT_STATEMENTLIST) {
+	AddChild(arg1);
+	if (arg1 != nullptr) {
+		AddChild(arg2);
+	}
+}
 BreakStatement::BreakStatement()
 	:STNode(NT_BREAKSTATEMENT) {
 }
@@ -263,6 +271,25 @@ string NUMBER::GetGraphVizLabel() {
 
 string IDENTIFIER::GetGraphVizLabel() {
 	return STNode::GetGraphVizLabel() + "_" + m_name;
+}
+
+string CTypeSpecifier::GetGraphVizLabel(){
+	switch (m_typespec) {
+	case TS_INT:
+		return "int";
+		break;
+	case TS_DOUBLE:
+		return "double";
+		break;
+	case TS_STRING:
+		return "string";
+		break;
+	case TS_VOID:
+		return "void";
+		break;
+	default:
+		return "";
+	}	
 }
 
 LessEqual::LessEqual(STNode* left, STNode* right) :

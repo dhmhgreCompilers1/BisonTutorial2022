@@ -75,7 +75,7 @@ namespace yy {
     union semantic_type
     {
 /* Line 33 of lalr1.cc  */
-#line 19 "Intro.y"
+#line 25 "Intro.y"
 
 	STNode *node;
 

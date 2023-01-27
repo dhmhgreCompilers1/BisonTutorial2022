@@ -4,12 +4,18 @@
 #include "Intro.tab.h"
 #include "SymbolTable.h"
 #include <string>
-#define YY_DECL int yylex(yy::parser::semantic_type *yylval)
+#define YY_DECL int yylex(yy::parser::semantic_type *yylval,yy::parser::location_type *yylloc)
 typedef yy::parser::token TOKEN;
+# define YY_USER_ACTION yylloc->columns(yyleng);
 %}
 INTEGER 0|[1-9][0-9]*
 
 %%
+%{
+// start where previous token ended
+yylloc->step ();
+%}
+
  std::string x;
  Symbol *s;
 "int" {return TOKEN::INT_TYPE;}
@@ -56,7 +62,8 @@ INTEGER 0|[1-9][0-9]*
 						s= g_symbolTable->GetEntity(x);
 						yylval->node=s->m_identifier;
 						return TOKEN::IDENTIFIER; }
-[ \t\n\r]
+[ \t]									{ yylloc->step (); }
+[\r\n]									{ yylloc->lines(1);}
 
 %%
 
