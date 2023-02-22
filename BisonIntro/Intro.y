@@ -86,7 +86,7 @@ statement : exprstatement	  { $$ = new Statement($1);  }
 		  ;
 
 compoundstatement : '{' statementlist '}' { $$ = new CompoundStatement($2);  }
-				  | '{' '}'			  { $$ = new CompoundStatement();  }
+				  | '{' '}'				  { $$ = new CompoundStatement();  }
 				  ;
 
 statementlist : statement				{ $$ = new StatementList($1);  }

@@ -33,6 +33,18 @@ struct TypedDataValue{
 		m_type = ts;
 		m_value = v;
 	}
+	operator bool()	{
+		switch (m_type)		{
+		case TS_INT:
+			return (bool)m_value.i;
+			break;
+		case TS_DOUBLE:
+			return (bool)m_value.d;
+			break;
+			default:
+				return false;
+		}
+	}
 };
 
 
@@ -200,7 +212,7 @@ private:
 class WhileStatement : public STNode {
 public:
 	WhileStatement(STNode *cond, STNode*st);
-	//TypedDataValue EvaluateTree(STNode* parent) override;
+	TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
 
@@ -258,6 +270,8 @@ private:
 class Subtraction : public STNode {
 public:
 	Subtraction(STNode* left, STNode* right);
+	TypedDataValue EvaluateTree(STNode* parent) override;
+	TypedDataValue Evaluate(TypedDataValue v1, TypedDataValue v2);
 private:
 };
 

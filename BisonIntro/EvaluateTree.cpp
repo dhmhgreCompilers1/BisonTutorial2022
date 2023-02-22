@@ -66,6 +66,49 @@ TypedDataValue Addition::Evaluate(TypedDataValue v1, TypedDataValue v2){
 	
 }
 
+TypedDataValue Subtraction::EvaluateTree(STNode* parent) {
+	list<STNode*>::iterator it;
+	TypedDataValue result = 0;
+	it = m_children->begin();
+	result = (*it)->EvaluateTree(this);
+	it++;
+	result = Evaluate(result, (*it)->EvaluateTree(this));
+	return result;
+}
+
+TypedDataValue Subtraction::Evaluate(TypedDataValue v1, TypedDataValue v2) {
+	TypedDataValue result = 0;
+	switch (v1.m_type) {
+	case  TS_INT:
+		if (v2.m_type == TS_INT) {
+			result.m_type = TS_INT;
+			result.m_value = v1.m_value.i - v2.m_value.i;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.i - v2.m_value.d;
+			return result;
+		}
+		break;
+	case TS_DOUBLE:
+		if (v2.m_type == TS_INT) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.i - v2.m_value.d;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_DOUBLE;
+			result.m_value = v1.m_value.d - v2.m_value.d;
+			return result;
+		}
+		break;
+	default:
+		cout << "Incompatible subtration arguments. Not supported operation\n";
+		exit(0);
+	}
+
+}
 
 TypedDataValue Parenthesis::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
@@ -96,5 +139,16 @@ TypedDataValue Assignment::EvaluateTree(STNode* parent) {
 		break;
 	}
 	
+	return 0;
+}
+TypedDataValue WhileStatement::EvaluateTree(STNode* parent){
+
+	list<STNode*>::iterator expr = m_children->begin();
+	list<STNode*>::iterator body = expr++;
+	TypedDataValue result = 0;
+
+	while((*expr)->EvaluateTree(this))	{
+		(*body)->EvaluateTree(this);
+	}
 	return 0;
 }
