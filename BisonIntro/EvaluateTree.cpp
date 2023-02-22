@@ -186,6 +186,52 @@ TypedDataValue LessEqual::Evaluate(TypedDataValue v1, TypedDataValue v2) {
 
 }
 
+TypedDataValue Less::EvaluateTree(STNode* parent) {
+	list<STNode*>::iterator it;
+	TypedDataValue result = 0;
+	it = m_children->begin();
+	result = (*it)->EvaluateTree(this);
+	it++;
+	result = Evaluate(result, (*it)->EvaluateTree(this));
+	return result;
+}
+
+TypedDataValue Less::Evaluate(TypedDataValue v1, TypedDataValue v2) {
+	TypedDataValue result = 0;
+	switch (v1.m_type) {
+	case  TS_INT:
+		if (v2.m_type == TS_INT) {
+			result.m_type = TS_INT;
+			result.m_value.i = v1.m_value.i < v2.m_value.i;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_INT;
+			result.m_value.i = (double)v1.m_value.i < v2.m_value.d;
+			return result;
+		}
+		break;
+	case TS_DOUBLE:
+		if (v2.m_type == TS_INT) {
+			result.m_type = TS_INT;
+			result.m_value.i = v1.m_value.d < (double)v2.m_value.i;
+			return result;
+		}
+		if (v2.m_type == TS_DOUBLE) {
+			result.m_type = TS_INT;
+			result.m_value.i = v1.m_value.d < v2.m_value.d;
+			return result;
+		}
+		break;
+	default:
+		cout << "Incompatible less operator arguments. Not supported operation\n";
+		exit(0);
+	}
+
+}
+
+
+
 TypedDataValue WhileStatement::EvaluateTree(STNode* parent) {
 
 	list<STNode*>::iterator expr = m_children->begin();

@@ -296,6 +296,8 @@ private:
 class Less : public STNode {
 public:
 	Less(STNode* left, STNode* right);
+	TypedDataValue EvaluateTree(STNode* parent) override;
+	TypedDataValue Evaluate(TypedDataValue v1, TypedDataValue v2);
 private:
 };
 class Greater : public STNode {
