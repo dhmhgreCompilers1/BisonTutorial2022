@@ -3,6 +3,8 @@
 #include <list>
 #include <string>
 #include <fstream>
+class IDENTIFIER;
+class CTypeSpecifier;
 using namespace std;
 
 typedef union DataValue {
@@ -55,6 +57,7 @@ typedef enum nodetype {
 	NT_COMPILEUNIT,
 	NT_DECLARATION,
 	NT_FUNCTIONDECLARATION,
+	NT_FUNPREFIX,
 	NT_DATADECLARATIONS,
 	NT_DATADECLARATION,
 	NT_COMPOUNDSTATEMENT,
@@ -142,6 +145,17 @@ public:
 	FunctionDeclaration(STNode* arg1, STNode* arg2,
 		STNode* arg3);
 	FunctionDeclaration(STNode* arg1, STNode* arg2);
+	//TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
+class FunctionPrefix : public STNode {
+	CTypeSpecifier* m_type_specifier;
+	IDENTIFIER *m_functionName;
+public:
+	FunctionPrefix(STNode* arg1, STNode* arg2);
+	CTypeSpecifier* TypeSpecifier() { return m_type_specifier; }
+	IDENTIFIER* FunName() { return m_functionName; }
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };

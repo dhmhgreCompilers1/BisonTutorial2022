@@ -6,6 +6,7 @@ const char* g_nodenames[] = {
 	"NT_COMPILEUNIT",
 	"NT_DECLARATION",
 	"NT_FUNCTIONDECLARATION",
+	"NT_FUNPREFIX",
 	"NT_DATADECLARATIONS",
 	"NT_DATADECLARATION",
 	"NT_COMPOUNDSTATEMENT",
@@ -126,8 +127,17 @@ FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2) :
 	AddChild(arg1);
 	AddChild(arg2);
 }
+
+FunctionPrefix::FunctionPrefix(STNode* arg1, STNode* arg2):
+	STNode(NT_FUNPREFIX) {
+	m_functionName = (IDENTIFIER*)arg2;
+	m_type_specifier = (CTypeSpecifier*)arg1;
+	AddChild(arg1);
+	AddChild(arg2);
+}
+
 FunctionParameters::FunctionParameters(STNode* arg1, STNode* arg2,
-	STNode* arg3) :
+                                       STNode* arg3) :
 	STNode(NT_FUNCTIONPARAMETERS) {
 	AddChild(arg1);
 	AddChild(arg2);

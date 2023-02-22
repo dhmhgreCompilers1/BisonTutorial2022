@@ -503,429 +503,433 @@ yylloc.begin.filename = yylloc.end.filename = new std::string("test.txt");
   case 8:
 /* Line 670 of lalr1.cc  */
 #line 58 "Intro.y"
-    { (yyval.node)=(yysemantic_stack_[(3) - (1)].node);
-										  g_scope=((IDENTIFIER *)(yysemantic_stack_[(3) - (2)].node))->Name()+"_";
-									      cout << "Entering function "<< g_scope <<endl;
+    { (yyval.node) = new FunctionPrefix((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (2)].node));  
+										   g_scope=((IDENTIFIER *)(yysemantic_stack_[(3) - (2)].node))->Name()+"_";
+									       cout << "Entering function "<< g_scope <<endl;
 										 }
     break;
 
   case 9:
 /* Line 670 of lalr1.cc  */
 #line 63 "Intro.y"
-    { (yyval.node) = new FunctionDeclaration((yysemantic_stack_[(6) - (-2)].node),(yysemantic_stack_[(6) - (-1)].node),(yysemantic_stack_[(6) - (2)].node),(yysemantic_stack_[(6) - (5)].node));  }
+    { (yyval.node) = new FunctionDeclaration(((FunctionPrefix*)(yysemantic_stack_[(6) - (1)].node))->TypeSpecifier(),
+																											((FunctionPrefix*)(yysemantic_stack_[(6) - (1)].node))->FunName(),(yysemantic_stack_[(6) - (2)].node),(yysemantic_stack_[(6) - (5)].node));  }
     break;
 
   case 10:
 /* Line 670 of lalr1.cc  */
-#line 64 "Intro.y"
-    { (yyval.node) = new FunctionDeclaration((yysemantic_stack_[(5) - (-2)].node),(yysemantic_stack_[(5) - (-1)].node),(yysemantic_stack_[(5) - (4)].node));  }
+#line 65 "Intro.y"
+    { (yyval.node) = new FunctionDeclaration(((FunctionPrefix*)(yysemantic_stack_[(5) - (1)].node))->TypeSpecifier(),
+																						((FunctionPrefix*)(yysemantic_stack_[(5) - (1)].node))->FunName(),(yysemantic_stack_[(5) - (4)].node));  }
     break;
 
   case 11:
 /* Line 670 of lalr1.cc  */
-#line 65 "Intro.y"
-    { (yyval.node) = new FunctionDeclaration((yysemantic_stack_[(4) - (-2)].node),(yysemantic_stack_[(4) - (-1)].node));  }
+#line 67 "Intro.y"
+    { (yyval.node) = new FunctionDeclaration(((FunctionPrefix*)(yysemantic_stack_[(4) - (1)].node))->TypeSpecifier(),
+																			((FunctionPrefix*)(yysemantic_stack_[(4) - (1)].node))->FunName());  }
     break;
 
   case 12:
 /* Line 670 of lalr1.cc  */
-#line 66 "Intro.y"
-    { (yyval.node) = new FunctionDeclaration((yysemantic_stack_[(5) - (-2)].node),(yysemantic_stack_[(5) - (-1)].node),(yysemantic_stack_[(5) - (2)].node));  }
+#line 69 "Intro.y"
+    { (yyval.node) = new FunctionDeclaration(((FunctionPrefix*)(yysemantic_stack_[(5) - (1)].node))->TypeSpecifier(),
+																							((FunctionPrefix*)(yysemantic_stack_[(5) - (1)].node))->FunName(),(yysemantic_stack_[(5) - (2)].node));  }
     break;
 
   case 13:
 /* Line 670 of lalr1.cc  */
-#line 69 "Intro.y"
+#line 73 "Intro.y"
     { (yyval.node) = new FunctionParameters((yysemantic_stack_[(2) - (1)].node),(yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 14:
 /* Line 670 of lalr1.cc  */
-#line 70 "Intro.y"
+#line 74 "Intro.y"
     { (yyval.node) = new FunctionParameters((yysemantic_stack_[(4) - (1)].node),(yysemantic_stack_[(4) - (3)].node),(yysemantic_stack_[(4) - (4)].node));  }
     break;
 
   case 15:
 /* Line 670 of lalr1.cc  */
-#line 74 "Intro.y"
+#line 78 "Intro.y"
     { (yyval.node) = new FunctionBody((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 16:
 /* Line 670 of lalr1.cc  */
-#line 75 "Intro.y"
+#line 79 "Intro.y"
     { (yyval.node) = new FunctionBody((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 17:
 /* Line 670 of lalr1.cc  */
-#line 76 "Intro.y"
+#line 80 "Intro.y"
     { (yyval.node) = new FunctionBody((yysemantic_stack_[(2) - (1)].node),(yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 18:
 /* Line 670 of lalr1.cc  */
-#line 79 "Intro.y"
+#line 83 "Intro.y"
     { (yyval.node) = new Statements((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 19:
 /* Line 670 of lalr1.cc  */
-#line 80 "Intro.y"
+#line 84 "Intro.y"
     { (yyval.node) = new Statements((yysemantic_stack_[(2) - (1)].node),(yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 20:
 /* Line 670 of lalr1.cc  */
-#line 83 "Intro.y"
+#line 87 "Intro.y"
     { (yyval.node) = new DataDeclarations((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 21:
 /* Line 670 of lalr1.cc  */
-#line 84 "Intro.y"
+#line 88 "Intro.y"
     { (yyval.node) = new DataDeclarations((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 22:
 /* Line 670 of lalr1.cc  */
-#line 87 "Intro.y"
+#line 91 "Intro.y"
     { (yyval.node) = new DataDeclaration((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (2)].node));  }
     break;
 
   case 23:
 /* Line 670 of lalr1.cc  */
-#line 88 "Intro.y"
+#line 92 "Intro.y"
     { (yyval.node) = new DataDeclaration((yysemantic_stack_[(5) - (1)].node),(yysemantic_stack_[(5) - (2)].node),(yysemantic_stack_[(5) - (4)].node));  }
     break;
 
   case 24:
 /* Line 670 of lalr1.cc  */
-#line 91 "Intro.y"
+#line 95 "Intro.y"
     { (yyval.node) = new CTypeSpecifier(TS_INT); }
     break;
 
   case 25:
 /* Line 670 of lalr1.cc  */
-#line 92 "Intro.y"
+#line 96 "Intro.y"
     { (yyval.node) = new CTypeSpecifier(TS_DOUBLE); }
     break;
 
   case 26:
 /* Line 670 of lalr1.cc  */
-#line 93 "Intro.y"
+#line 97 "Intro.y"
     { (yyval.node) = new CTypeSpecifier(TS_STRING); }
     break;
 
   case 27:
 /* Line 670 of lalr1.cc  */
-#line 94 "Intro.y"
+#line 98 "Intro.y"
     { (yyval.node) = new CTypeSpecifier(TS_VOID); }
     break;
 
   case 28:
 /* Line 670 of lalr1.cc  */
-#line 97 "Intro.y"
+#line 101 "Intro.y"
     {(yyval.node)=(yysemantic_stack_[(1) - (1)].node);}
     break;
 
   case 29:
 /* Line 670 of lalr1.cc  */
-#line 98 "Intro.y"
+#line 102 "Intro.y"
     {(yyval.node)=(yysemantic_stack_[(1) - (1)].node); }
     break;
 
   case 30:
 /* Line 670 of lalr1.cc  */
-#line 101 "Intro.y"
+#line 105 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 31:
 /* Line 670 of lalr1.cc  */
-#line 102 "Intro.y"
+#line 106 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 32:
 /* Line 670 of lalr1.cc  */
-#line 103 "Intro.y"
+#line 107 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 33:
 /* Line 670 of lalr1.cc  */
-#line 104 "Intro.y"
+#line 108 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 34:
 /* Line 670 of lalr1.cc  */
-#line 105 "Intro.y"
+#line 109 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 35:
 /* Line 670 of lalr1.cc  */
-#line 106 "Intro.y"
+#line 110 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 36:
 /* Line 670 of lalr1.cc  */
-#line 107 "Intro.y"
+#line 111 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 37:
 /* Line 670 of lalr1.cc  */
-#line 108 "Intro.y"
+#line 112 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 38:
 /* Line 670 of lalr1.cc  */
-#line 109 "Intro.y"
+#line 113 "Intro.y"
     { (yyval.node) = new Statement((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 39:
 /* Line 670 of lalr1.cc  */
-#line 112 "Intro.y"
+#line 116 "Intro.y"
     { (yyval.node) = new CompoundStatement((yysemantic_stack_[(3) - (2)].node));  }
     break;
 
   case 40:
 /* Line 670 of lalr1.cc  */
-#line 113 "Intro.y"
+#line 117 "Intro.y"
     { (yyval.node) = new CompoundStatement();  }
     break;
 
   case 41:
 /* Line 670 of lalr1.cc  */
-#line 116 "Intro.y"
+#line 120 "Intro.y"
     { (yyval.node) = new StatementList((yysemantic_stack_[(1) - (1)].node));  }
     break;
 
   case 42:
 /* Line 670 of lalr1.cc  */
-#line 117 "Intro.y"
+#line 121 "Intro.y"
     { (yyval.node) = new StatementList((yysemantic_stack_[(2) - (1)].node),(yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 43:
 /* Line 670 of lalr1.cc  */
-#line 121 "Intro.y"
+#line 125 "Intro.y"
     { (yyval.node) = new BreakStatement();  }
     break;
 
   case 44:
 /* Line 670 of lalr1.cc  */
-#line 124 "Intro.y"
+#line 128 "Intro.y"
     { (yyval.node) = new ReturnStatement((yysemantic_stack_[(3) - (2)].node));  }
     break;
 
   case 45:
 /* Line 670 of lalr1.cc  */
-#line 125 "Intro.y"
+#line 129 "Intro.y"
     { (yyval.node) = new ReturnStatement();  }
     break;
 
   case 46:
 /* Line 670 of lalr1.cc  */
-#line 128 "Intro.y"
+#line 132 "Intro.y"
     { (yyval.node) = new ContinueStatement();  }
     break;
 
   case 47:
 /* Line 670 of lalr1.cc  */
-#line 131 "Intro.y"
+#line 135 "Intro.y"
     { (yyval.node) = new ExpressionStatement((yysemantic_stack_[(2) - (1)].node));  }
     break;
 
   case 48:
 /* Line 670 of lalr1.cc  */
-#line 134 "Intro.y"
+#line 138 "Intro.y"
     { (yyval.node) = new EmptyStatement();  }
     break;
 
   case 49:
 /* Line 670 of lalr1.cc  */
-#line 137 "Intro.y"
+#line 141 "Intro.y"
     { (yyval.node) =new WhileStatement((yysemantic_stack_[(5) - (3)].node),(yysemantic_stack_[(5) - (5)].node)); }
     break;
 
   case 50:
 /* Line 670 of lalr1.cc  */
-#line 140 "Intro.y"
+#line 144 "Intro.y"
     { (yyval.node) =new ForStatement((yysemantic_stack_[(6) - (3)].node), (yysemantic_stack_[(6) - (4)].node), (yysemantic_stack_[(6) - (6)].node)); }
     break;
 
   case 51:
 /* Line 670 of lalr1.cc  */
-#line 141 "Intro.y"
+#line 145 "Intro.y"
     { (yyval.node) =new ForStatement((yysemantic_stack_[(7) - (3)].node), (yysemantic_stack_[(7) - (4)].node), (yysemantic_stack_[(7) - (5)].node),(yysemantic_stack_[(7) - (7)].node)); }
     break;
 
   case 52:
 /* Line 670 of lalr1.cc  */
-#line 144 "Intro.y"
+#line 148 "Intro.y"
     {(yyval.node) =new ForPrimitive((yysemantic_stack_[(1) - (1)].node));}
     break;
 
   case 53:
 /* Line 670 of lalr1.cc  */
-#line 145 "Intro.y"
+#line 149 "Intro.y"
     {(yyval.node) =new ForPrimitive((yysemantic_stack_[(1) - (1)].node));}
     break;
 
   case 54:
 /* Line 670 of lalr1.cc  */
-#line 148 "Intro.y"
+#line 152 "Intro.y"
     { (yyval.node)= new IfStatement((yysemantic_stack_[(5) - (3)].node),(yysemantic_stack_[(5) - (5)].node)); }
     break;
 
   case 55:
 /* Line 670 of lalr1.cc  */
-#line 149 "Intro.y"
+#line 153 "Intro.y"
     { (yyval.node)= new IfStatement((yysemantic_stack_[(7) - (3)].node),(yysemantic_stack_[(7) - (5)].node),(yysemantic_stack_[(7) - (7)].node)); }
     break;
 
   case 56:
 /* Line 670 of lalr1.cc  */
-#line 153 "Intro.y"
+#line 157 "Intro.y"
     { (yyval.node) = (yysemantic_stack_[(1) - (1)].node); }
     break;
 
   case 57:
 /* Line 670 of lalr1.cc  */
-#line 154 "Intro.y"
+#line 158 "Intro.y"
     { (yyval.node) = (yysemantic_stack_[(1) - (1)].node); }
     break;
 
   case 58:
 /* Line 670 of lalr1.cc  */
-#line 155 "Intro.y"
+#line 159 "Intro.y"
     { (yyval.node) = new FunctionCall((yysemantic_stack_[(4) - (1)].node),(yysemantic_stack_[(4) - (3)].node)); }
     break;
 
   case 59:
 /* Line 670 of lalr1.cc  */
-#line 156 "Intro.y"
+#line 160 "Intro.y"
     { (yyval.node) = new Parenthesis((yysemantic_stack_[(3) - (2)].node)); }
     break;
 
   case 60:
 /* Line 670 of lalr1.cc  */
-#line 157 "Intro.y"
+#line 161 "Intro.y"
     { (yyval.node) = new Assignment((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));}
     break;
 
   case 61:
 /* Line 670 of lalr1.cc  */
-#line 158 "Intro.y"
+#line 162 "Intro.y"
     { (yyval.node) = new Addition((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 62:
 /* Line 670 of lalr1.cc  */
-#line 159 "Intro.y"
+#line 163 "Intro.y"
     { (yyval.node) = new Subtraction((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 63:
 /* Line 670 of lalr1.cc  */
-#line 160 "Intro.y"
+#line 164 "Intro.y"
     { (yyval.node) = new Multiplication((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 64:
 /* Line 670 of lalr1.cc  */
-#line 161 "Intro.y"
+#line 165 "Intro.y"
     { (yyval.node) = new Division((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 65:
 /* Line 670 of lalr1.cc  */
-#line 162 "Intro.y"
+#line 166 "Intro.y"
     { (yyval.node) = new Less((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 66:
 /* Line 670 of lalr1.cc  */
-#line 163 "Intro.y"
+#line 167 "Intro.y"
     { (yyval.node) = new Greater((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 67:
 /* Line 670 of lalr1.cc  */
-#line 164 "Intro.y"
+#line 168 "Intro.y"
     { (yyval.node) = new LessEqual((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 68:
 /* Line 670 of lalr1.cc  */
-#line 165 "Intro.y"
+#line 169 "Intro.y"
     { (yyval.node) = new GreaterEqual((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 69:
 /* Line 670 of lalr1.cc  */
-#line 166 "Intro.y"
+#line 170 "Intro.y"
     { (yyval.node) = new Equal((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 70:
 /* Line 670 of lalr1.cc  */
-#line 167 "Intro.y"
+#line 171 "Intro.y"
     { (yyval.node) = new NotEqual((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 71:
 /* Line 670 of lalr1.cc  */
-#line 168 "Intro.y"
+#line 172 "Intro.y"
     { (yyval.node) = new And((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 72:
 /* Line 670 of lalr1.cc  */
-#line 169 "Intro.y"
+#line 173 "Intro.y"
     { (yyval.node) = new Or((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node));  }
     break;
 
   case 73:
 /* Line 670 of lalr1.cc  */
-#line 170 "Intro.y"
+#line 174 "Intro.y"
     { (yyval.node) = new Not((yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 74:
 /* Line 670 of lalr1.cc  */
-#line 171 "Intro.y"
+#line 175 "Intro.y"
     { (yyval.node) = new Plus((yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 75:
 /* Line 670 of lalr1.cc  */
-#line 172 "Intro.y"
+#line 176 "Intro.y"
     { (yyval.node) = new Minus((yysemantic_stack_[(2) - (2)].node));  }
     break;
 
   case 76:
 /* Line 670 of lalr1.cc  */
-#line 175 "Intro.y"
+#line 179 "Intro.y"
     { (yyval.node) = new FunctionCallArguments((yysemantic_stack_[(1) - (1)].node)); }
     break;
 
   case 77:
 /* Line 670 of lalr1.cc  */
-#line 176 "Intro.y"
+#line 180 "Intro.y"
     { (yyval.node) = new FunctionCallArguments((yysemantic_stack_[(3) - (1)].node),(yysemantic_stack_[(3) - (3)].node)); }
     break;
 
 
 /* Line 670 of lalr1.cc  */
-#line 929 "Intro.tab.cpp"
+#line 933 "Intro.tab.cpp"
       default:
         break;
       }
@@ -1534,13 +1538,13 @@ yylloc.begin.filename = yylloc.end.filename = new std::string("test.txt");
   parser::yyrline_[] =
   {
          0,    48,    48,    49,    50,    51,    54,    55,    58,    63,
-      64,    65,    66,    69,    70,    74,    75,    76,    79,    80,
-      83,    84,    87,    88,    91,    92,    93,    94,    97,    98,
-     101,   102,   103,   104,   105,   106,   107,   108,   109,   112,
-     113,   116,   117,   121,   124,   125,   128,   131,   134,   137,
-     140,   141,   144,   145,   148,   149,   153,   154,   155,   156,
-     157,   158,   159,   160,   161,   162,   163,   164,   165,   166,
-     167,   168,   169,   170,   171,   172,   175,   176
+      65,    67,    69,    73,    74,    78,    79,    80,    83,    84,
+      87,    88,    91,    92,    95,    96,    97,    98,   101,   102,
+     105,   106,   107,   108,   109,   110,   111,   112,   113,   116,
+     117,   120,   121,   125,   128,   129,   132,   135,   138,   141,
+     144,   145,   148,   149,   152,   153,   157,   158,   159,   160,
+     161,   162,   163,   164,   165,   166,   167,   168,   169,   170,
+     171,   172,   173,   174,   175,   176,   179,   180
   };
 
   // Print the state stack on the debug stream.
@@ -1631,9 +1635,9 @@ yylloc.begin.filename = yylloc.end.filename = new std::string("test.txt");
 
 } // yy
 /* Line 1141 of lalr1.cc  */
-#line 1635 "Intro.tab.cpp"
+#line 1639 "Intro.tab.cpp"
 /* Line 1142 of lalr1.cc  */
-#line 180 "Intro.y"
+#line 184 "Intro.y"
 
 string g_scope="";
 namespace yy{

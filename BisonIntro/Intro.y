@@ -55,15 +55,19 @@ declaration : datadeclaration		{ $$ = new Declaration($1);  }
 			| functiondeclaration   { $$ = new Declaration($1);  }
 			;
 
-funprefix : typespecifier IDENTIFIER '(' { $$=$1;
-										  g_scope=((IDENTIFIER *)$2)->Name()+"_";
-									      cout << "Entering function "<< g_scope <<endl;
+funprefix : typespecifier IDENTIFIER '(' { $$ = new FunctionPrefix($1,$2);  
+										   g_scope=((IDENTIFIER *)$2)->Name()+"_";
+									       cout << "Entering function "<< g_scope <<endl;
 										 }
 
-functiondeclaration : funprefix functionparameters ')' '{' functionbody '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$2,$5);  }
-					| funprefix ')' '{' functionbody '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$4);  }
-					| funprefix ')' '{'  '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1);  }
-					| funprefix functionparameters ')' '{'  '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$2);  }
+functiondeclaration : funprefix functionparameters ')' '{' functionbody '}' { $$ = new FunctionDeclaration(((FunctionPrefix*)$1)->TypeSpecifier(),
+																											((FunctionPrefix*)$1)->FunName(),$2,$5);  }
+					| funprefix ')' '{' functionbody '}' { $$ = new FunctionDeclaration(((FunctionPrefix*)$1)->TypeSpecifier(),
+																						((FunctionPrefix*)$1)->FunName(),$4);  }
+					| funprefix ')' '{'  '}' { $$ = new FunctionDeclaration(((FunctionPrefix*)$1)->TypeSpecifier(),
+																			((FunctionPrefix*)$1)->FunName());  }
+					| funprefix functionparameters ')' '{'  '}' { $$ = new FunctionDeclaration(((FunctionPrefix*)$1)->TypeSpecifier(),
+																							((FunctionPrefix*)$1)->FunName(),$2);  }
 					;
 
 functionparameters : typespecifier IDENTIFIER	{ $$ = new FunctionParameters($1,$2);  }
