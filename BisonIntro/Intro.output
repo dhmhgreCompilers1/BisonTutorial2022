@@ -10,138 +10,140 @@ Grammar
     5 declaration: datadeclaration
     6            | functiondeclaration
 
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' '{' functionbody '}'
-    8                    | typespecifier IDENTIFIER '(' ')' '{' functionbody '}'
-    9                    | typespecifier IDENTIFIER '(' ')' '{' '}'
-   10                    | typespecifier IDENTIFIER '(' functionparameters ')' '{' '}'
+    7 funprefix: typespecifier IDENTIFIER '('
 
-   11 functionparameters: typespecifier IDENTIFIER
-   12                   | functionparameters ',' typespecifier IDENTIFIER
+    8 functiondeclaration: funprefix functionparameters ')' '{' functionbody '}'
+    9                    | funprefix ')' '{' functionbody '}'
+   10                    | funprefix ')' '{' '}'
+   11                    | funprefix functionparameters ')' '{' '}'
 
-   13 functionbody: statements
-   14             | datadeclarations
-   15             | datadeclarations statements
+   12 functionparameters: typespecifier IDENTIFIER
+   13                   | functionparameters ',' typespecifier IDENTIFIER
 
-   16 statements: statement
-   17           | statements statement
+   14 functionbody: statements
+   15             | datadeclarations
+   16             | datadeclarations statements
 
-   18 datadeclarations: datadeclaration
-   19                 | datadeclarations ',' datadeclaration
+   17 statements: statement
+   18           | statements statement
 
-   20 datadeclaration: typespecifier IDENTIFIER ';'
-   21                | typespecifier IDENTIFIER '=' datavalue ';'
+   19 datadeclarations: datadeclaration
+   20                 | datadeclarations ',' datadeclaration
 
-   22 typespecifier: INT_TYPE
-   23              | DOUBLE_TYPE
-   24              | STRING_TYPE
-   25              | VOID_TYPE
+   21 datadeclaration: typespecifier IDENTIFIER ';'
+   22                | typespecifier IDENTIFIER '=' datavalue ';'
 
-   26 datavalue: NUMBER
-   27          | STRING
+   23 typespecifier: INT_TYPE
+   24              | DOUBLE_TYPE
+   25              | STRING_TYPE
+   26              | VOID_TYPE
 
-   28 statement: exprstatement
-   29          | emptystatement
-   30          | whilestatement
-   31          | ifstatement
-   32          | forstatement
-   33          | breakstatement
-   34          | returnstatement
-   35          | continuestatement
-   36          | compoundstatement
+   27 datavalue: NUMBER
+   28          | STRING
 
-   37 compoundstatement: '{' statementlist '}'
-   38                  | '{' '}'
+   29 statement: exprstatement
+   30          | emptystatement
+   31          | whilestatement
+   32          | ifstatement
+   33          | forstatement
+   34          | breakstatement
+   35          | returnstatement
+   36          | continuestatement
+   37          | compoundstatement
 
-   39 statementlist: statement
-   40              | statementlist statement
+   38 compoundstatement: '{' statementlist '}'
+   39                  | '{' '}'
 
-   41 breakstatement: BREAK ';'
+   40 statementlist: statement
+   41              | statementlist statement
 
-   42 returnstatement: RETURN expr ';'
-   43                | RETURN ';'
+   42 breakstatement: BREAK ';'
 
-   44 continuestatement: CONTINUE ';'
+   43 returnstatement: RETURN expr ';'
+   44                | RETURN ';'
 
-   45 exprstatement: expr ';'
+   45 continuestatement: CONTINUE ';'
 
-   46 emptystatement: ';'
+   46 exprstatement: expr ';'
 
-   47 whilestatement: WHILE '(' expr ')' statement
+   47 emptystatement: ';'
 
-   48 forstatement: FOR '(' forprimitive forprimitive ')' statement
-   49             | FOR '(' forprimitive forprimitive expr ')' statement
+   48 whilestatement: WHILE '(' expr ')' statement
 
-   50 forprimitive: exprstatement
-   51             | emptystatement
+   49 forstatement: FOR '(' forprimitive forprimitive ')' statement
+   50             | FOR '(' forprimitive forprimitive expr ')' statement
 
-   52 ifstatement: IF '(' expr ')' statement
-   53            | IF '(' expr ')' statement ELSE statement
+   51 forprimitive: exprstatement
+   52             | emptystatement
 
-   54 expr: NUMBER
-   55     | IDENTIFIER
-   56     | IDENTIFIER '(' funargs ')'
-   57     | '(' expr ')'
-   58     | IDENTIFIER '=' expr
-   59     | expr PLUS expr
-   60     | expr '-' expr
-   61     | expr '*' expr
-   62     | expr '/' expr
-   63     | expr '<' expr
-   64     | expr '>' expr
-   65     | expr LE expr
-   66     | expr GE expr
-   67     | expr EQ expr
-   68     | expr NE expr
-   69     | expr AND expr
-   70     | expr OR expr
-   71     | NOT expr
-   72     | PLUS expr
-   73     | '-' expr
+   53 ifstatement: IF '(' expr ')' statement
+   54            | IF '(' expr ')' statement ELSE statement
 
-   74 funargs: expr
-   75        | funargs ',' expr
+   55 expr: NUMBER
+   56     | IDENTIFIER
+   57     | IDENTIFIER '(' funargs ')'
+   58     | '(' expr ')'
+   59     | IDENTIFIER '=' expr
+   60     | expr PLUS expr
+   61     | expr '-' expr
+   62     | expr '*' expr
+   63     | expr '/' expr
+   64     | expr '<' expr
+   65     | expr '>' expr
+   66     | expr LE expr
+   67     | expr GE expr
+   68     | expr EQ expr
+   69     | expr NE expr
+   70     | expr AND expr
+   71     | expr OR expr
+   72     | NOT expr
+   73     | PLUS expr
+   74     | '-' expr
+
+   75 funargs: expr
+   76        | funargs ',' expr
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
-'(' (40) 7 8 9 10 47 48 49 52 53 56 57
-')' (41) 7 8 9 10 47 48 49 52 53 56 57
-'*' (42) 61
-',' (44) 12 19 75
-'-' (45) 60 73
-'/' (47) 62
-';' (59) 20 21 41 42 43 44 45 46
-'<' (60) 63
-'=' (61) 21 58
-'>' (62) 64
-'{' (123) 7 8 9 10 37 38
-'}' (125) 7 8 9 10 37 38
+'(' (40) 7 48 49 50 53 54 57 58
+')' (41) 8 9 10 11 48 49 50 53 54 57 58
+'*' (42) 62
+',' (44) 13 20 76
+'-' (45) 61 74
+'/' (47) 63
+';' (59) 21 22 42 43 44 45 46 47
+'<' (60) 64
+'=' (61) 22 59
+'>' (62) 65
+'{' (123) 8 9 10 11 38 39
+'}' (125) 8 9 10 11 38 39
 error (256)
-IDENTIFIER (258) 7 8 9 10 11 12 20 21 55 56 58
-IF (259) 52 53
-WHILE (260) 47
-FOR (261) 48 49
-BREAK (262) 41
-CONTINUE (263) 44
-RETURN (264) 42 43
-INT_TYPE (265) 22
-DOUBLE_TYPE (266) 23
-VOID_TYPE (267) 25
-STRING_TYPE (268) 24
-STRING (269) 27
-NUMBER (270) 26 54
+IDENTIFIER (258) 7 12 13 21 22 56 57 59
+IF (259) 53 54
+WHILE (260) 48
+FOR (261) 49 50
+BREAK (262) 42
+CONTINUE (263) 45
+RETURN (264) 43 44
+INT_TYPE (265) 23
+DOUBLE_TYPE (266) 24
+VOID_TYPE (267) 26
+STRING_TYPE (268) 25
+STRING (269) 28
+NUMBER (270) 27 55
 IFRULE (271)
-OR (272) 70
-AND (273) 69
-EQ (274) 67
-NE (275) 68
-GE (276) 66
-LE (277) 65
-PLUS (278) 59 72
-ELSE (279) 53
+OR (272) 71
+AND (273) 70
+EQ (274) 68
+NE (275) 69
+GE (276) 67
+LE (277) 66
+PLUS (278) 60 73
+ELSE (279) 54
 UNARYOP (280)
-NOT (281) 71
+NOT (281) 72
 
 
 Nonterminals, with rules where they appear
@@ -152,53 +154,55 @@ compileunit (40)
     on left: 1 2 3 4, on right: 0 3 4
 declaration (41)
     on left: 5 6, on right: 1 3
-functiondeclaration (42)
-    on left: 7 8 9 10, on right: 6
-functionparameters (43)
-    on left: 11 12, on right: 7 10 12
-functionbody (44)
-    on left: 13 14 15, on right: 7 8
-statements (45)
-    on left: 16 17, on right: 13 15 17
-datadeclarations (46)
-    on left: 18 19, on right: 14 15 19
-datadeclaration (47)
-    on left: 20 21, on right: 5 18 19
-typespecifier (48)
-    on left: 22 23 24 25, on right: 7 8 9 10 11 12 20 21
-datavalue (49)
-    on left: 26 27, on right: 21
-statement (50)
-    on left: 28 29 30 31 32 33 34 35 36, on right: 2 4 16 17 39 40
-    47 48 49 52 53
-compoundstatement (51)
-    on left: 37 38, on right: 36
-statementlist (52)
-    on left: 39 40, on right: 37 40
-breakstatement (53)
-    on left: 41, on right: 33
-returnstatement (54)
-    on left: 42 43, on right: 34
-continuestatement (55)
-    on left: 44, on right: 35
-exprstatement (56)
-    on left: 45, on right: 28 50
-emptystatement (57)
+funprefix (42)
+    on left: 7, on right: 8 9 10 11
+functiondeclaration (43)
+    on left: 8 9 10 11, on right: 6
+functionparameters (44)
+    on left: 12 13, on right: 8 11 13
+functionbody (45)
+    on left: 14 15 16, on right: 8 9
+statements (46)
+    on left: 17 18, on right: 14 16 18
+datadeclarations (47)
+    on left: 19 20, on right: 15 16 20
+datadeclaration (48)
+    on left: 21 22, on right: 5 19 20
+typespecifier (49)
+    on left: 23 24 25 26, on right: 7 12 13 21 22
+datavalue (50)
+    on left: 27 28, on right: 22
+statement (51)
+    on left: 29 30 31 32 33 34 35 36 37, on right: 2 4 17 18 40 41
+    48 49 50 53 54
+compoundstatement (52)
+    on left: 38 39, on right: 37
+statementlist (53)
+    on left: 40 41, on right: 38 41
+breakstatement (54)
+    on left: 42, on right: 34
+returnstatement (55)
+    on left: 43 44, on right: 35
+continuestatement (56)
+    on left: 45, on right: 36
+exprstatement (57)
     on left: 46, on right: 29 51
-whilestatement (58)
-    on left: 47, on right: 30
-forstatement (59)
-    on left: 48 49, on right: 32
-forprimitive (60)
-    on left: 50 51, on right: 48 49
-ifstatement (61)
-    on left: 52 53, on right: 31
-expr (62)
-    on left: 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71
-    72 73, on right: 42 45 47 49 52 53 57 58 59 60 61 62 63 64 65 66
-    67 68 69 70 71 72 73 74 75
-funargs (63)
-    on left: 74 75, on right: 56 75
+emptystatement (58)
+    on left: 47, on right: 30 52
+whilestatement (59)
+    on left: 48, on right: 31
+forstatement (60)
+    on left: 49 50, on right: 33
+forprimitive (61)
+    on left: 51 52, on right: 49 50
+ifstatement (62)
+    on left: 53 54, on right: 32
+expr (63)
+    on left: 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72
+    73 74, on right: 43 46 48 50 53 54 58 59 60 61 62 63 64 65 66 67
+    68 69 70 71 72 73 74 75 76
+funargs (64)
+    on left: 75 76, on right: 57 76
 
 
 State 0
@@ -226,75 +230,76 @@ State 0
 
     compileunit          go to state 19
     declaration          go to state 20
-    functiondeclaration  go to state 21
-    datadeclaration      go to state 22
-    typespecifier        go to state 23
-    statement            go to state 24
-    compoundstatement    go to state 25
-    breakstatement       go to state 26
-    returnstatement      go to state 27
-    continuestatement    go to state 28
-    exprstatement        go to state 29
-    emptystatement       go to state 30
-    whilestatement       go to state 31
-    forstatement         go to state 32
-    ifstatement          go to state 33
-    expr                 go to state 34
+    funprefix            go to state 21
+    functiondeclaration  go to state 22
+    datadeclaration      go to state 23
+    typespecifier        go to state 24
+    statement            go to state 25
+    compoundstatement    go to state 26
+    breakstatement       go to state 27
+    returnstatement      go to state 28
+    continuestatement    go to state 29
+    exprstatement        go to state 30
+    emptystatement       go to state 31
+    whilestatement       go to state 32
+    forstatement         go to state 33
+    ifstatement          go to state 34
+    expr                 go to state 35
 
 
 State 1
 
-   55 expr: IDENTIFIER .
-   56     | IDENTIFIER . '(' funargs ')'
-   58     | IDENTIFIER . '=' expr
+   56 expr: IDENTIFIER .
+   57     | IDENTIFIER . '(' funargs ')'
+   59     | IDENTIFIER . '=' expr
 
-    '='  shift, and go to state 35
-    '('  shift, and go to state 36
+    '='  shift, and go to state 36
+    '('  shift, and go to state 37
 
-    $default  reduce using rule 55 (expr)
+    $default  reduce using rule 56 (expr)
 
 
 State 2
 
-   52 ifstatement: IF . '(' expr ')' statement
-   53            | IF . '(' expr ')' statement ELSE statement
-
-    '('  shift, and go to state 37
-
-
-State 3
-
-   47 whilestatement: WHILE . '(' expr ')' statement
+   53 ifstatement: IF . '(' expr ')' statement
+   54            | IF . '(' expr ')' statement ELSE statement
 
     '('  shift, and go to state 38
 
 
-State 4
+State 3
 
-   48 forstatement: FOR . '(' forprimitive forprimitive ')' statement
-   49             | FOR . '(' forprimitive forprimitive expr ')' statement
+   48 whilestatement: WHILE . '(' expr ')' statement
 
     '('  shift, and go to state 39
 
 
+State 4
+
+   49 forstatement: FOR . '(' forprimitive forprimitive ')' statement
+   50             | FOR . '(' forprimitive forprimitive expr ')' statement
+
+    '('  shift, and go to state 40
+
+
 State 5
 
-   41 breakstatement: BREAK . ';'
-
-    ';'  shift, and go to state 40
-
-
-State 6
-
-   44 continuestatement: CONTINUE . ';'
+   42 breakstatement: BREAK . ';'
 
     ';'  shift, and go to state 41
 
 
+State 6
+
+   45 continuestatement: CONTINUE . ';'
+
+    ';'  shift, and go to state 42
+
+
 State 7
 
-   42 returnstatement: RETURN . expr ';'
-   43                | RETURN . ';'
+   43 returnstatement: RETURN . expr ';'
+   44                | RETURN . ';'
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -302,63 +307,49 @@ State 7
     PLUS        shift, and go to state 14
     NOT         shift, and go to state 15
     '('         shift, and go to state 16
-    ';'         shift, and go to state 42
-
-    expr  go to state 43
-
-
-State 8
-
-   22 typespecifier: INT_TYPE .
-
-    $default  reduce using rule 22 (typespecifier)
-
-
-State 9
-
-   23 typespecifier: DOUBLE_TYPE .
-
-    $default  reduce using rule 23 (typespecifier)
-
-
-State 10
-
-   25 typespecifier: VOID_TYPE .
-
-    $default  reduce using rule 25 (typespecifier)
-
-
-State 11
-
-   24 typespecifier: STRING_TYPE .
-
-    $default  reduce using rule 24 (typespecifier)
-
-
-State 12
-
-   54 expr: NUMBER .
-
-    $default  reduce using rule 54 (expr)
-
-
-State 13
-
-   73 expr: '-' . expr
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
+    ';'         shift, and go to state 43
 
     expr  go to state 44
 
 
-State 14
+State 8
 
-   72 expr: PLUS . expr
+   23 typespecifier: INT_TYPE .
+
+    $default  reduce using rule 23 (typespecifier)
+
+
+State 9
+
+   24 typespecifier: DOUBLE_TYPE .
+
+    $default  reduce using rule 24 (typespecifier)
+
+
+State 10
+
+   26 typespecifier: VOID_TYPE .
+
+    $default  reduce using rule 26 (typespecifier)
+
+
+State 11
+
+   25 typespecifier: STRING_TYPE .
+
+    $default  reduce using rule 25 (typespecifier)
+
+
+State 12
+
+   55 expr: NUMBER .
+
+    $default  reduce using rule 55 (expr)
+
+
+State 13
+
+   74 expr: '-' . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -370,9 +361,9 @@ State 14
     expr  go to state 45
 
 
-State 15
+State 14
 
-   71 expr: NOT . expr
+   73 expr: PLUS . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -384,9 +375,9 @@ State 15
     expr  go to state 46
 
 
-State 16
+State 15
 
-   57 expr: '(' . expr ')'
+   72 expr: NOT . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -398,10 +389,24 @@ State 16
     expr  go to state 47
 
 
+State 16
+
+   58 expr: '(' . expr ')'
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 48
+
+
 State 17
 
-   37 compoundstatement: '{' . statementlist '}'
-   38                  | '{' . '}'
+   38 compoundstatement: '{' . statementlist '}'
+   39                  | '{' . '}'
 
     IDENTIFIER  shift, and go to state 1
     IF          shift, and go to state 2
@@ -416,28 +421,28 @@ State 17
     NOT         shift, and go to state 15
     '('         shift, and go to state 16
     '{'         shift, and go to state 17
-    '}'         shift, and go to state 48
+    '}'         shift, and go to state 49
     ';'         shift, and go to state 18
 
-    statement          go to state 49
-    compoundstatement  go to state 25
-    statementlist      go to state 50
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
+    statement          go to state 50
+    compoundstatement  go to state 26
+    statementlist      go to state 51
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
 
 
 State 18
 
-   46 emptystatement: ';' .
+   47 emptystatement: ';' .
 
-    $default  reduce using rule 46 (emptystatement)
+    $default  reduce using rule 47 (emptystatement)
 
 
 State 19
@@ -446,7 +451,7 @@ State 19
     3 compileunit: compileunit . declaration
     4            | compileunit . statement
 
-    $end         shift, and go to state 51
+    $end         shift, and go to state 52
     IDENTIFIER   shift, and go to state 1
     IF           shift, and go to state 2
     WHILE        shift, and go to state 3
@@ -466,21 +471,22 @@ State 19
     '{'          shift, and go to state 17
     ';'          shift, and go to state 18
 
-    declaration          go to state 52
-    functiondeclaration  go to state 21
-    datadeclaration      go to state 22
-    typespecifier        go to state 23
-    statement            go to state 53
-    compoundstatement    go to state 25
-    breakstatement       go to state 26
-    returnstatement      go to state 27
-    continuestatement    go to state 28
-    exprstatement        go to state 29
-    emptystatement       go to state 30
-    whilestatement       go to state 31
-    forstatement         go to state 32
-    ifstatement          go to state 33
-    expr                 go to state 34
+    declaration          go to state 53
+    funprefix            go to state 21
+    functiondeclaration  go to state 22
+    datadeclaration      go to state 23
+    typespecifier        go to state 24
+    statement            go to state 54
+    compoundstatement    go to state 26
+    breakstatement       go to state 27
+    returnstatement      go to state 28
+    continuestatement    go to state 29
+    exprstatement        go to state 30
+    emptystatement       go to state 31
+    whilestatement       go to state 32
+    forstatement         go to state 33
+    ifstatement          go to state 34
+    expr                 go to state 35
 
 
 State 20
@@ -492,178 +498,148 @@ State 20
 
 State 21
 
+    8 functiondeclaration: funprefix . functionparameters ')' '{' functionbody '}'
+    9                    | funprefix . ')' '{' functionbody '}'
+   10                    | funprefix . ')' '{' '}'
+   11                    | funprefix . functionparameters ')' '{' '}'
+
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+    ')'          shift, and go to state 55
+
+    functionparameters  go to state 56
+    typespecifier       go to state 57
+
+
+State 22
+
     6 declaration: functiondeclaration .
 
     $default  reduce using rule 6 (declaration)
 
 
-State 22
+State 23
 
     5 declaration: datadeclaration .
 
     $default  reduce using rule 5 (declaration)
 
 
-State 23
-
-    7 functiondeclaration: typespecifier . IDENTIFIER '(' functionparameters ')' '{' functionbody '}'
-    8                    | typespecifier . IDENTIFIER '(' ')' '{' functionbody '}'
-    9                    | typespecifier . IDENTIFIER '(' ')' '{' '}'
-   10                    | typespecifier . IDENTIFIER '(' functionparameters ')' '{' '}'
-   20 datadeclaration: typespecifier . IDENTIFIER ';'
-   21                | typespecifier . IDENTIFIER '=' datavalue ';'
-
-    IDENTIFIER  shift, and go to state 54
-
-
 State 24
+
+    7 funprefix: typespecifier . IDENTIFIER '('
+   21 datadeclaration: typespecifier . IDENTIFIER ';'
+   22                | typespecifier . IDENTIFIER '=' datavalue ';'
+
+    IDENTIFIER  shift, and go to state 58
+
+
+State 25
 
     2 compileunit: statement .
 
     $default  reduce using rule 2 (compileunit)
 
 
-State 25
-
-   36 statement: compoundstatement .
-
-    $default  reduce using rule 36 (statement)
-
-
 State 26
 
-   33 statement: breakstatement .
+   37 statement: compoundstatement .
 
-    $default  reduce using rule 33 (statement)
+    $default  reduce using rule 37 (statement)
 
 
 State 27
 
-   34 statement: returnstatement .
+   34 statement: breakstatement .
 
     $default  reduce using rule 34 (statement)
 
 
 State 28
 
-   35 statement: continuestatement .
+   35 statement: returnstatement .
 
     $default  reduce using rule 35 (statement)
 
 
 State 29
 
-   28 statement: exprstatement .
+   36 statement: continuestatement .
 
-    $default  reduce using rule 28 (statement)
+    $default  reduce using rule 36 (statement)
 
 
 State 30
 
-   29 statement: emptystatement .
+   29 statement: exprstatement .
 
     $default  reduce using rule 29 (statement)
 
 
 State 31
 
-   30 statement: whilestatement .
+   30 statement: emptystatement .
 
     $default  reduce using rule 30 (statement)
 
 
 State 32
 
-   32 statement: forstatement .
-
-    $default  reduce using rule 32 (statement)
-
-
-State 33
-
-   31 statement: ifstatement .
+   31 statement: whilestatement .
 
     $default  reduce using rule 31 (statement)
 
 
+State 33
+
+   33 statement: forstatement .
+
+    $default  reduce using rule 33 (statement)
+
+
 State 34
 
-   45 exprstatement: expr . ';'
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   32 statement: ifstatement .
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ';'   shift, and go to state 67
+    $default  reduce using rule 32 (statement)
 
 
 State 35
 
-   58 expr: IDENTIFIER '=' . expr
+   46 exprstatement: expr . ';'
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 68
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ';'   shift, and go to state 71
 
 
 State 36
 
-   56 expr: IDENTIFIER '(' . funargs ')'
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr     go to state 69
-    funargs  go to state 70
-
-
-State 37
-
-   52 ifstatement: IF '(' . expr ')' statement
-   53            | IF '(' . expr ')' statement ELSE statement
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 71
-
-
-State 38
-
-   47 whilestatement: WHILE '(' . expr ')' statement
+   59 expr: IDENTIFIER '=' . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -675,10 +651,54 @@ State 38
     expr  go to state 72
 
 
+State 37
+
+   57 expr: IDENTIFIER '(' . funargs ')'
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr     go to state 73
+    funargs  go to state 74
+
+
+State 38
+
+   53 ifstatement: IF '(' . expr ')' statement
+   54            | IF '(' . expr ')' statement ELSE statement
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 75
+
+
 State 39
 
-   48 forstatement: FOR '(' . forprimitive forprimitive ')' statement
-   49             | FOR '(' . forprimitive forprimitive expr ')' statement
+   48 whilestatement: WHILE '(' . expr ')' statement
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 76
+
+
+State 40
+
+   49 forstatement: FOR '(' . forprimitive forprimitive ')' statement
+   50             | FOR '(' . forprimitive forprimitive expr ')' statement
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -688,170 +708,170 @@ State 39
     '('         shift, and go to state 16
     ';'         shift, and go to state 18
 
-    exprstatement   go to state 73
-    emptystatement  go to state 74
-    forprimitive    go to state 75
-    expr            go to state 34
-
-
-State 40
-
-   41 breakstatement: BREAK ';' .
-
-    $default  reduce using rule 41 (breakstatement)
+    exprstatement   go to state 77
+    emptystatement  go to state 78
+    forprimitive    go to state 79
+    expr            go to state 35
 
 
 State 41
 
-   44 continuestatement: CONTINUE ';' .
+   42 breakstatement: BREAK ';' .
 
-    $default  reduce using rule 44 (continuestatement)
+    $default  reduce using rule 42 (breakstatement)
 
 
 State 42
 
-   43 returnstatement: RETURN ';' .
+   45 continuestatement: CONTINUE ';' .
 
-    $default  reduce using rule 43 (returnstatement)
+    $default  reduce using rule 45 (continuestatement)
 
 
 State 43
 
-   42 returnstatement: RETURN expr . ';'
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   44 returnstatement: RETURN ';' .
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ';'   shift, and go to state 76
+    $default  reduce using rule 44 (returnstatement)
 
 
 State 44
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   73     | '-' expr .
+   43 returnstatement: RETURN expr . ';'
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    $default  reduce using rule 73 (expr)
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ';'   shift, and go to state 80
 
 
 State 45
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   72     | PLUS expr .
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   74     | '-' expr .
 
-    $default  reduce using rule 72 (expr)
+    $default  reduce using rule 74 (expr)
 
 
 State 46
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   71     | NOT expr .
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   73     | PLUS expr .
 
-    $default  reduce using rule 71 (expr)
+    $default  reduce using rule 73 (expr)
 
 
 State 47
 
-   57 expr: '(' expr . ')'
-   59     | expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   72     | NOT expr .
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ')'   shift, and go to state 77
+    $default  reduce using rule 72 (expr)
 
 
 State 48
 
-   38 compoundstatement: '{' '}' .
+   58 expr: '(' expr . ')'
+   60     | expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    $default  reduce using rule 38 (compoundstatement)
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ')'   shift, and go to state 81
 
 
 State 49
 
-   39 statementlist: statement .
+   39 compoundstatement: '{' '}' .
 
-    $default  reduce using rule 39 (statementlist)
+    $default  reduce using rule 39 (compoundstatement)
 
 
 State 50
 
-   37 compoundstatement: '{' statementlist . '}'
-   40 statementlist: statementlist . statement
+   40 statementlist: statement .
+
+    $default  reduce using rule 40 (statementlist)
+
+
+State 51
+
+   38 compoundstatement: '{' statementlist . '}'
+   41 statementlist: statementlist . statement
 
     IDENTIFIER  shift, and go to state 1
     IF          shift, and go to state 2
@@ -866,172 +886,82 @@ State 50
     NOT         shift, and go to state 15
     '('         shift, and go to state 16
     '{'         shift, and go to state 17
-    '}'         shift, and go to state 78
+    '}'         shift, and go to state 82
     ';'         shift, and go to state 18
 
-    statement          go to state 79
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
+    statement          go to state 83
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
 
 
-State 51
+State 52
 
     0 $accept: compileunit $end .
 
     $default  accept
 
 
-State 52
+State 53
 
     3 compileunit: compileunit declaration .
 
     $default  reduce using rule 3 (compileunit)
 
 
-State 53
+State 54
 
     4 compileunit: compileunit statement .
 
     $default  reduce using rule 4 (compileunit)
 
 
-State 54
-
-    7 functiondeclaration: typespecifier IDENTIFIER . '(' functionparameters ')' '{' functionbody '}'
-    8                    | typespecifier IDENTIFIER . '(' ')' '{' functionbody '}'
-    9                    | typespecifier IDENTIFIER . '(' ')' '{' '}'
-   10                    | typespecifier IDENTIFIER . '(' functionparameters ')' '{' '}'
-   20 datadeclaration: typespecifier IDENTIFIER . ';'
-   21                | typespecifier IDENTIFIER . '=' datavalue ';'
-
-    '='  shift, and go to state 80
-    '('  shift, and go to state 81
-    ';'  shift, and go to state 82
-
-
 State 55
 
-   70 expr: expr OR . expr
+    9 functiondeclaration: funprefix ')' . '{' functionbody '}'
+   10                    | funprefix ')' . '{' '}'
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 83
+    '{'  shift, and go to state 84
 
 
 State 56
 
-   69 expr: expr AND . expr
+    8 functiondeclaration: funprefix functionparameters . ')' '{' functionbody '}'
+   11                    | funprefix functionparameters . ')' '{' '}'
+   13 functionparameters: functionparameters . ',' typespecifier IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 84
+    ')'  shift, and go to state 85
+    ','  shift, and go to state 86
 
 
 State 57
 
-   63 expr: expr '<' . expr
+   12 functionparameters: typespecifier . IDENTIFIER
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 85
+    IDENTIFIER  shift, and go to state 87
 
 
 State 58
 
-   64 expr: expr '>' . expr
+    7 funprefix: typespecifier IDENTIFIER . '('
+   21 datadeclaration: typespecifier IDENTIFIER . ';'
+   22                | typespecifier IDENTIFIER . '=' datavalue ';'
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 86
+    '='  shift, and go to state 88
+    '('  shift, and go to state 89
+    ';'  shift, and go to state 90
 
 
 State 59
 
-   67 expr: expr EQ . expr
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 87
-
-
-State 60
-
-   68 expr: expr NE . expr
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 88
-
-
-State 61
-
-   66 expr: expr GE . expr
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 89
-
-
-State 62
-
-   65 expr: expr LE . expr
-
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-
-    expr  go to state 90
-
-
-State 63
-
-   60 expr: expr '-' . expr
+   71 expr: expr OR . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -1043,9 +973,9 @@ State 63
     expr  go to state 91
 
 
-State 64
+State 60
 
-   59 expr: expr PLUS . expr
+   70 expr: expr AND . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -1057,9 +987,9 @@ State 64
     expr  go to state 92
 
 
-State 65
+State 61
 
-   61 expr: expr '*' . expr
+   64 expr: expr '<' . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -1071,9 +1001,9 @@ State 65
     expr  go to state 93
 
 
-State 66
+State 62
 
-   62 expr: expr '/' . expr
+   65 expr: expr '>' . expr
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -1085,167 +1015,279 @@ State 66
     expr  go to state 94
 
 
+State 63
+
+   68 expr: expr EQ . expr
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 95
+
+
+State 64
+
+   69 expr: expr NE . expr
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 96
+
+
+State 65
+
+   67 expr: expr GE . expr
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 97
+
+
+State 66
+
+   66 expr: expr LE . expr
+
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 98
+
+
 State 67
 
-   45 exprstatement: expr ';' .
+   61 expr: expr '-' . expr
 
-    $default  reduce using rule 45 (exprstatement)
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 99
 
 
 State 68
 
-   58 expr: IDENTIFIER '=' expr .
-   59     | expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   60 expr: expr PLUS . expr
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
 
-    $default  reduce using rule 58 (expr)
+    expr  go to state 100
 
 
 State 69
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   74 funargs: expr .
+   62 expr: expr '*' . expr
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
 
-    $default  reduce using rule 74 (funargs)
+    expr  go to state 101
 
 
 State 70
 
-   56 expr: IDENTIFIER '(' funargs . ')'
-   75 funargs: funargs . ',' expr
+   63 expr: expr '/' . expr
 
-    ')'  shift, and go to state 95
-    ','  shift, and go to state 96
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 102
 
 
 State 71
 
-   52 ifstatement: IF '(' expr . ')' statement
-   53            | IF '(' expr . ')' statement ELSE statement
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   46 exprstatement: expr ';' .
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ')'   shift, and go to state 97
+    $default  reduce using rule 46 (exprstatement)
 
 
 State 72
 
-   47 whilestatement: WHILE '(' expr . ')' statement
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   59 expr: IDENTIFIER '=' expr .
+   60     | expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ')'   shift, and go to state 98
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+
+    $default  reduce using rule 59 (expr)
 
 
 State 73
 
-   50 forprimitive: exprstatement .
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   75 funargs: expr .
 
-    $default  reduce using rule 50 (forprimitive)
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+
+    $default  reduce using rule 75 (funargs)
 
 
 State 74
 
-   51 forprimitive: emptystatement .
+   57 expr: IDENTIFIER '(' funargs . ')'
+   76 funargs: funargs . ',' expr
 
-    $default  reduce using rule 51 (forprimitive)
+    ')'  shift, and go to state 103
+    ','  shift, and go to state 104
 
 
 State 75
 
-   48 forstatement: FOR '(' forprimitive . forprimitive ')' statement
-   49             | FOR '(' forprimitive . forprimitive expr ')' statement
+   53 ifstatement: IF '(' expr . ')' statement
+   54            | IF '(' expr . ')' statement ELSE statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ')'   shift, and go to state 105
+
+
+State 76
+
+   48 whilestatement: WHILE '(' expr . ')' statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ')'   shift, and go to state 106
+
+
+State 77
+
+   51 forprimitive: exprstatement .
+
+    $default  reduce using rule 51 (forprimitive)
+
+
+State 78
+
+   52 forprimitive: emptystatement .
+
+    $default  reduce using rule 52 (forprimitive)
+
+
+State 79
+
+   49 forstatement: FOR '(' forprimitive . forprimitive ')' statement
+   50             | FOR '(' forprimitive . forprimitive expr ')' statement
 
     IDENTIFIER  shift, and go to state 1
     NUMBER      shift, and go to state 12
@@ -1255,186 +1297,215 @@ State 75
     '('         shift, and go to state 16
     ';'         shift, and go to state 18
 
-    exprstatement   go to state 73
-    emptystatement  go to state 74
-    forprimitive    go to state 99
-    expr            go to state 34
-
-
-State 76
-
-   42 returnstatement: RETURN expr ';' .
-
-    $default  reduce using rule 42 (returnstatement)
-
-
-State 77
-
-   57 expr: '(' expr ')' .
-
-    $default  reduce using rule 57 (expr)
-
-
-State 78
-
-   37 compoundstatement: '{' statementlist '}' .
-
-    $default  reduce using rule 37 (compoundstatement)
-
-
-State 79
-
-   40 statementlist: statementlist statement .
-
-    $default  reduce using rule 40 (statementlist)
+    exprstatement   go to state 77
+    emptystatement  go to state 78
+    forprimitive    go to state 107
+    expr            go to state 35
 
 
 State 80
 
-   21 datadeclaration: typespecifier IDENTIFIER '=' . datavalue ';'
+   43 returnstatement: RETURN expr ';' .
 
-    STRING  shift, and go to state 100
-    NUMBER  shift, and go to state 101
-
-    datavalue  go to state 102
+    $default  reduce using rule 43 (returnstatement)
 
 
 State 81
 
-    7 functiondeclaration: typespecifier IDENTIFIER '(' . functionparameters ')' '{' functionbody '}'
-    8                    | typespecifier IDENTIFIER '(' . ')' '{' functionbody '}'
-    9                    | typespecifier IDENTIFIER '(' . ')' '{' '}'
-   10                    | typespecifier IDENTIFIER '(' . functionparameters ')' '{' '}'
+   58 expr: '(' expr ')' .
+
+    $default  reduce using rule 58 (expr)
+
+
+State 82
+
+   38 compoundstatement: '{' statementlist '}' .
+
+    $default  reduce using rule 38 (compoundstatement)
+
+
+State 83
+
+   41 statementlist: statementlist statement .
+
+    $default  reduce using rule 41 (statementlist)
+
+
+State 84
+
+    9 functiondeclaration: funprefix ')' '{' . functionbody '}'
+   10                    | funprefix ')' '{' . '}'
+
+    IDENTIFIER   shift, and go to state 1
+    IF           shift, and go to state 2
+    WHILE        shift, and go to state 3
+    FOR          shift, and go to state 4
+    BREAK        shift, and go to state 5
+    CONTINUE     shift, and go to state 6
+    RETURN       shift, and go to state 7
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+    NUMBER       shift, and go to state 12
+    '-'          shift, and go to state 13
+    PLUS         shift, and go to state 14
+    NOT          shift, and go to state 15
+    '('          shift, and go to state 16
+    '{'          shift, and go to state 17
+    '}'          shift, and go to state 108
+    ';'          shift, and go to state 18
+
+    functionbody       go to state 109
+    statements         go to state 110
+    datadeclarations   go to state 111
+    datadeclaration    go to state 112
+    typespecifier      go to state 113
+    statement          go to state 114
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 85
+
+    8 functiondeclaration: funprefix functionparameters ')' . '{' functionbody '}'
+   11                    | funprefix functionparameters ')' . '{' '}'
+
+    '{'  shift, and go to state 115
+
+
+State 86
+
+   13 functionparameters: functionparameters ',' . typespecifier IDENTIFIER
 
     INT_TYPE     shift, and go to state 8
     DOUBLE_TYPE  shift, and go to state 9
     VOID_TYPE    shift, and go to state 10
     STRING_TYPE  shift, and go to state 11
-    ')'          shift, and go to state 103
 
-    functionparameters  go to state 104
-    typespecifier       go to state 105
+    typespecifier  go to state 116
 
 
-State 82
+State 87
 
-   20 datadeclaration: typespecifier IDENTIFIER ';' .
+   12 functionparameters: typespecifier IDENTIFIER .
 
-    $default  reduce using rule 20 (datadeclaration)
+    $default  reduce using rule 12 (functionparameters)
 
 
-State 83
+State 88
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   70     | expr OR expr .
+   22 datadeclaration: typespecifier IDENTIFIER '=' . datavalue ';'
 
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    STRING  shift, and go to state 117
+    NUMBER  shift, and go to state 118
+
+    datavalue  go to state 119
+
+
+State 89
+
+    7 funprefix: typespecifier IDENTIFIER '(' .
+
+    $default  reduce using rule 7 (funprefix)
+
+
+State 90
+
+   21 datadeclaration: typespecifier IDENTIFIER ';' .
+
+    $default  reduce using rule 21 (datadeclaration)
+
+
+State 91
+
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   71     | expr OR expr .
+
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+
+    $default  reduce using rule 71 (expr)
+
+
+State 92
+
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   70     | expr AND expr .
+   71     | expr . OR expr
+
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
     $default  reduce using rule 70 (expr)
 
 
-State 84
+State 93
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   69     | expr AND expr .
-   70     | expr . OR expr
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   64     | expr '<' expr .
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-
-    $default  reduce using rule 69 (expr)
-
-
-State 85
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   63     | expr '<' expr .
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-
-    '<'  error (nonassociative)
-    '>'  error (nonassociative)
-    EQ   error (nonassociative)
-    NE   error (nonassociative)
-    GE   error (nonassociative)
-    LE   error (nonassociative)
-
-    $default  reduce using rule 63 (expr)
-
-
-State 86
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   64     | expr '>' expr .
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
     '<'  error (nonassociative)
     '>'  error (nonassociative)
@@ -1446,119 +1517,26 @@ State 86
     $default  reduce using rule 64 (expr)
 
 
-State 87
+State 94
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   67     | expr EQ expr .
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   65     | expr '>' expr .
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-
-    '<'  error (nonassociative)
-    '>'  error (nonassociative)
-    EQ   error (nonassociative)
-    NE   error (nonassociative)
-    GE   error (nonassociative)
-    LE   error (nonassociative)
-
-    $default  reduce using rule 67 (expr)
-
-
-State 88
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   68     | expr NE expr .
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-
-    '<'  error (nonassociative)
-    '>'  error (nonassociative)
-    EQ   error (nonassociative)
-    NE   error (nonassociative)
-    GE   error (nonassociative)
-    LE   error (nonassociative)
-
-    $default  reduce using rule 68 (expr)
-
-
-State 89
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   66     | expr GE expr .
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-
-    '<'  error (nonassociative)
-    '>'  error (nonassociative)
-    EQ   error (nonassociative)
-    NE   error (nonassociative)
-    GE   error (nonassociative)
-    LE   error (nonassociative)
-
-    $default  reduce using rule 66 (expr)
-
-
-State 90
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   65     | expr LE expr .
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
     '<'  error (nonassociative)
     '>'  error (nonassociative)
@@ -1570,770 +1548,799 @@ State 90
     $default  reduce using rule 65 (expr)
 
 
-State 91
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   60     | expr '-' expr .
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '*'  shift, and go to state 65
-    '/'  shift, and go to state 66
-
-    $default  reduce using rule 60 (expr)
-
-
-State 92
-
-   59 expr: expr . PLUS expr
-   59     | expr PLUS expr .
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    '*'  shift, and go to state 65
-    '/'  shift, and go to state 66
-
-    $default  reduce using rule 59 (expr)
-
-
-State 93
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   61     | expr '*' expr .
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    $default  reduce using rule 61 (expr)
-
-
-State 94
-
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   62     | expr '/' expr .
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    $default  reduce using rule 62 (expr)
-
-
 State 95
 
-   56 expr: IDENTIFIER '(' funargs ')' .
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   68     | expr EQ expr .
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    $default  reduce using rule 56 (expr)
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+
+    '<'  error (nonassociative)
+    '>'  error (nonassociative)
+    EQ   error (nonassociative)
+    NE   error (nonassociative)
+    GE   error (nonassociative)
+    LE   error (nonassociative)
+
+    $default  reduce using rule 68 (expr)
 
 
 State 96
 
-   75 funargs: funargs ',' . expr
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   69     | expr NE expr .
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
-    expr  go to state 106
+    '<'  error (nonassociative)
+    '>'  error (nonassociative)
+    EQ   error (nonassociative)
+    NE   error (nonassociative)
+    GE   error (nonassociative)
+    LE   error (nonassociative)
+
+    $default  reduce using rule 69 (expr)
 
 
 State 97
 
-   52 ifstatement: IF '(' expr ')' . statement
-   53            | IF '(' expr ')' . statement ELSE statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   67     | expr GE expr .
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
-    statement          go to state 107
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
+    '<'  error (nonassociative)
+    '>'  error (nonassociative)
+    EQ   error (nonassociative)
+    NE   error (nonassociative)
+    GE   error (nonassociative)
+    LE   error (nonassociative)
+
+    $default  reduce using rule 67 (expr)
 
 
 State 98
 
-   47 whilestatement: WHILE '(' expr ')' . statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   66     | expr LE expr .
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
 
-    statement          go to state 108
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
+    '<'  error (nonassociative)
+    '>'  error (nonassociative)
+    EQ   error (nonassociative)
+    NE   error (nonassociative)
+    GE   error (nonassociative)
+    LE   error (nonassociative)
+
+    $default  reduce using rule 66 (expr)
 
 
 State 99
 
-   48 forstatement: FOR '(' forprimitive forprimitive . ')' statement
-   49             | FOR '(' forprimitive forprimitive . expr ')' statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   61     | expr '-' expr .
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    IDENTIFIER  shift, and go to state 1
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    ')'         shift, and go to state 109
+    '*'  shift, and go to state 69
+    '/'  shift, and go to state 70
 
-    expr  go to state 110
+    $default  reduce using rule 61 (expr)
 
 
 State 100
 
-   27 datavalue: STRING .
+   60 expr: expr . PLUS expr
+   60     | expr PLUS expr .
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    $default  reduce using rule 27 (datavalue)
+    '*'  shift, and go to state 69
+    '/'  shift, and go to state 70
+
+    $default  reduce using rule 60 (expr)
 
 
 State 101
 
-   26 datavalue: NUMBER .
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   62     | expr '*' expr .
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    $default  reduce using rule 26 (datavalue)
+    $default  reduce using rule 62 (expr)
 
 
 State 102
 
-   21 datadeclaration: typespecifier IDENTIFIER '=' datavalue . ';'
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   63     | expr '/' expr .
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
 
-    ';'  shift, and go to state 111
+    $default  reduce using rule 63 (expr)
 
 
 State 103
 
-    8 functiondeclaration: typespecifier IDENTIFIER '(' ')' . '{' functionbody '}'
-    9                    | typespecifier IDENTIFIER '(' ')' . '{' '}'
+   57 expr: IDENTIFIER '(' funargs ')' .
 
-    '{'  shift, and go to state 112
+    $default  reduce using rule 57 (expr)
 
 
 State 104
 
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters . ')' '{' functionbody '}'
-   10                    | typespecifier IDENTIFIER '(' functionparameters . ')' '{' '}'
-   12 functionparameters: functionparameters . ',' typespecifier IDENTIFIER
+   76 funargs: funargs ',' . expr
 
-    ')'  shift, and go to state 113
-    ','  shift, and go to state 114
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+
+    expr  go to state 120
 
 
 State 105
 
-   11 functionparameters: typespecifier . IDENTIFIER
+   53 ifstatement: IF '(' expr ')' . statement
+   54            | IF '(' expr ')' . statement ELSE statement
 
-    IDENTIFIER  shift, and go to state 115
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    statement          go to state 121
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
 
 
 State 106
 
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-   75 funargs: funargs ',' expr .
+   48 whilestatement: WHILE '(' expr ')' . statement
 
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
 
-    $default  reduce using rule 75 (funargs)
+    statement          go to state 122
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
 
 
 State 107
 
-   52 ifstatement: IF '(' expr ')' statement .
-   53            | IF '(' expr ')' statement . ELSE statement
+   49 forstatement: FOR '(' forprimitive forprimitive . ')' statement
+   50             | FOR '(' forprimitive forprimitive . expr ')' statement
 
-    ELSE  shift, and go to state 116
+    IDENTIFIER  shift, and go to state 1
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    ')'         shift, and go to state 123
 
-    $default  reduce using rule 52 (ifstatement)
+    expr  go to state 124
 
 
 State 108
 
-   47 whilestatement: WHILE '(' expr ')' statement .
-
-    $default  reduce using rule 47 (whilestatement)
-
-
-State 109
-
-   48 forstatement: FOR '(' forprimitive forprimitive ')' . statement
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
-
-    statement          go to state 117
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 110
-
-   49 forstatement: FOR '(' forprimitive forprimitive expr . ')' statement
-   59 expr: expr . PLUS expr
-   60     | expr . '-' expr
-   61     | expr . '*' expr
-   62     | expr . '/' expr
-   63     | expr . '<' expr
-   64     | expr . '>' expr
-   65     | expr . LE expr
-   66     | expr . GE expr
-   67     | expr . EQ expr
-   68     | expr . NE expr
-   69     | expr . AND expr
-   70     | expr . OR expr
-
-    OR    shift, and go to state 55
-    AND   shift, and go to state 56
-    '<'   shift, and go to state 57
-    '>'   shift, and go to state 58
-    EQ    shift, and go to state 59
-    NE    shift, and go to state 60
-    GE    shift, and go to state 61
-    LE    shift, and go to state 62
-    '-'   shift, and go to state 63
-    PLUS  shift, and go to state 64
-    '*'   shift, and go to state 65
-    '/'   shift, and go to state 66
-    ')'   shift, and go to state 118
-
-
-State 111
-
-   21 datadeclaration: typespecifier IDENTIFIER '=' datavalue ';' .
-
-    $default  reduce using rule 21 (datadeclaration)
-
-
-State 112
-
-    8 functiondeclaration: typespecifier IDENTIFIER '(' ')' '{' . functionbody '}'
-    9                    | typespecifier IDENTIFIER '(' ')' '{' . '}'
-
-    IDENTIFIER   shift, and go to state 1
-    IF           shift, and go to state 2
-    WHILE        shift, and go to state 3
-    FOR          shift, and go to state 4
-    BREAK        shift, and go to state 5
-    CONTINUE     shift, and go to state 6
-    RETURN       shift, and go to state 7
-    INT_TYPE     shift, and go to state 8
-    DOUBLE_TYPE  shift, and go to state 9
-    VOID_TYPE    shift, and go to state 10
-    STRING_TYPE  shift, and go to state 11
-    NUMBER       shift, and go to state 12
-    '-'          shift, and go to state 13
-    PLUS         shift, and go to state 14
-    NOT          shift, and go to state 15
-    '('          shift, and go to state 16
-    '{'          shift, and go to state 17
-    '}'          shift, and go to state 119
-    ';'          shift, and go to state 18
-
-    functionbody       go to state 120
-    statements         go to state 121
-    datadeclarations   go to state 122
-    datadeclaration    go to state 123
-    typespecifier      go to state 124
-    statement          go to state 125
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 113
-
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' . '{' functionbody '}'
-   10                    | typespecifier IDENTIFIER '(' functionparameters ')' . '{' '}'
-
-    '{'  shift, and go to state 126
-
-
-State 114
-
-   12 functionparameters: functionparameters ',' . typespecifier IDENTIFIER
-
-    INT_TYPE     shift, and go to state 8
-    DOUBLE_TYPE  shift, and go to state 9
-    VOID_TYPE    shift, and go to state 10
-    STRING_TYPE  shift, and go to state 11
-
-    typespecifier  go to state 127
-
-
-State 115
-
-   11 functionparameters: typespecifier IDENTIFIER .
-
-    $default  reduce using rule 11 (functionparameters)
-
-
-State 116
-
-   53 ifstatement: IF '(' expr ')' statement ELSE . statement
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
-
-    statement          go to state 128
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 117
-
-   48 forstatement: FOR '(' forprimitive forprimitive ')' statement .
-
-    $default  reduce using rule 48 (forstatement)
-
-
-State 118
-
-   49 forstatement: FOR '(' forprimitive forprimitive expr ')' . statement
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
-
-    statement          go to state 129
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 119
-
-    9 functiondeclaration: typespecifier IDENTIFIER '(' ')' '{' '}' .
-
-    $default  reduce using rule 9 (functiondeclaration)
-
-
-State 120
-
-    8 functiondeclaration: typespecifier IDENTIFIER '(' ')' '{' functionbody . '}'
-
-    '}'  shift, and go to state 130
-
-
-State 121
-
-   13 functionbody: statements .
-   17 statements: statements . statement
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
-
-    $default  reduce using rule 13 (functionbody)
-
-    statement          go to state 131
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 122
-
-   14 functionbody: datadeclarations .
-   15             | datadeclarations . statements
-   19 datadeclarations: datadeclarations . ',' datadeclaration
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ','         shift, and go to state 132
-    ';'         shift, and go to state 18
-
-    $default  reduce using rule 14 (functionbody)
-
-    statements         go to state 133
-    statement          go to state 125
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 123
-
-   18 datadeclarations: datadeclaration .
-
-    $default  reduce using rule 18 (datadeclarations)
-
-
-State 124
-
-   20 datadeclaration: typespecifier . IDENTIFIER ';'
-   21                | typespecifier . IDENTIFIER '=' datavalue ';'
-
-    IDENTIFIER  shift, and go to state 134
-
-
-State 125
-
-   16 statements: statement .
-
-    $default  reduce using rule 16 (statements)
-
-
-State 126
-
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' '{' . functionbody '}'
-   10                    | typespecifier IDENTIFIER '(' functionparameters ')' '{' . '}'
-
-    IDENTIFIER   shift, and go to state 1
-    IF           shift, and go to state 2
-    WHILE        shift, and go to state 3
-    FOR          shift, and go to state 4
-    BREAK        shift, and go to state 5
-    CONTINUE     shift, and go to state 6
-    RETURN       shift, and go to state 7
-    INT_TYPE     shift, and go to state 8
-    DOUBLE_TYPE  shift, and go to state 9
-    VOID_TYPE    shift, and go to state 10
-    STRING_TYPE  shift, and go to state 11
-    NUMBER       shift, and go to state 12
-    '-'          shift, and go to state 13
-    PLUS         shift, and go to state 14
-    NOT          shift, and go to state 15
-    '('          shift, and go to state 16
-    '{'          shift, and go to state 17
-    '}'          shift, and go to state 135
-    ';'          shift, and go to state 18
-
-    functionbody       go to state 136
-    statements         go to state 121
-    datadeclarations   go to state 122
-    datadeclaration    go to state 123
-    typespecifier      go to state 124
-    statement          go to state 125
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 127
-
-   12 functionparameters: functionparameters ',' typespecifier . IDENTIFIER
-
-    IDENTIFIER  shift, and go to state 137
-
-
-State 128
-
-   53 ifstatement: IF '(' expr ')' statement ELSE statement .
-
-    $default  reduce using rule 53 (ifstatement)
-
-
-State 129
-
-   49 forstatement: FOR '(' forprimitive forprimitive expr ')' statement .
-
-    $default  reduce using rule 49 (forstatement)
-
-
-State 130
-
-    8 functiondeclaration: typespecifier IDENTIFIER '(' ')' '{' functionbody '}' .
-
-    $default  reduce using rule 8 (functiondeclaration)
-
-
-State 131
-
-   17 statements: statements statement .
-
-    $default  reduce using rule 17 (statements)
-
-
-State 132
-
-   19 datadeclarations: datadeclarations ',' . datadeclaration
-
-    INT_TYPE     shift, and go to state 8
-    DOUBLE_TYPE  shift, and go to state 9
-    VOID_TYPE    shift, and go to state 10
-    STRING_TYPE  shift, and go to state 11
-
-    datadeclaration  go to state 138
-    typespecifier    go to state 124
-
-
-State 133
-
-   15 functionbody: datadeclarations statements .
-   17 statements: statements . statement
-
-    IDENTIFIER  shift, and go to state 1
-    IF          shift, and go to state 2
-    WHILE       shift, and go to state 3
-    FOR         shift, and go to state 4
-    BREAK       shift, and go to state 5
-    CONTINUE    shift, and go to state 6
-    RETURN      shift, and go to state 7
-    NUMBER      shift, and go to state 12
-    '-'         shift, and go to state 13
-    PLUS        shift, and go to state 14
-    NOT         shift, and go to state 15
-    '('         shift, and go to state 16
-    '{'         shift, and go to state 17
-    ';'         shift, and go to state 18
-
-    $default  reduce using rule 15 (functionbody)
-
-    statement          go to state 131
-    compoundstatement  go to state 25
-    breakstatement     go to state 26
-    returnstatement    go to state 27
-    continuestatement  go to state 28
-    exprstatement      go to state 29
-    emptystatement     go to state 30
-    whilestatement     go to state 31
-    forstatement       go to state 32
-    ifstatement        go to state 33
-    expr               go to state 34
-
-
-State 134
-
-   20 datadeclaration: typespecifier IDENTIFIER . ';'
-   21                | typespecifier IDENTIFIER . '=' datavalue ';'
-
-    '='  shift, and go to state 80
-    ';'  shift, and go to state 82
-
-
-State 135
-
-   10 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' '{' '}' .
+   10 functiondeclaration: funprefix ')' '{' '}' .
 
     $default  reduce using rule 10 (functiondeclaration)
 
 
-State 136
+State 109
 
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' '{' functionbody . '}'
+    9 functiondeclaration: funprefix ')' '{' functionbody . '}'
 
-    '}'  shift, and go to state 139
-
-
-State 137
-
-   12 functionparameters: functionparameters ',' typespecifier IDENTIFIER .
-
-    $default  reduce using rule 12 (functionparameters)
+    '}'  shift, and go to state 125
 
 
-State 138
+State 110
 
-   19 datadeclarations: datadeclarations ',' datadeclaration .
+   14 functionbody: statements .
+   18 statements: statements . statement
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    $default  reduce using rule 14 (functionbody)
+
+    statement          go to state 126
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 111
+
+   15 functionbody: datadeclarations .
+   16             | datadeclarations . statements
+   20 datadeclarations: datadeclarations . ',' datadeclaration
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ','         shift, and go to state 127
+    ';'         shift, and go to state 18
+
+    $default  reduce using rule 15 (functionbody)
+
+    statements         go to state 128
+    statement          go to state 114
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 112
+
+   19 datadeclarations: datadeclaration .
 
     $default  reduce using rule 19 (datadeclarations)
 
 
+State 113
+
+   21 datadeclaration: typespecifier . IDENTIFIER ';'
+   22                | typespecifier . IDENTIFIER '=' datavalue ';'
+
+    IDENTIFIER  shift, and go to state 129
+
+
+State 114
+
+   17 statements: statement .
+
+    $default  reduce using rule 17 (statements)
+
+
+State 115
+
+    8 functiondeclaration: funprefix functionparameters ')' '{' . functionbody '}'
+   11                    | funprefix functionparameters ')' '{' . '}'
+
+    IDENTIFIER   shift, and go to state 1
+    IF           shift, and go to state 2
+    WHILE        shift, and go to state 3
+    FOR          shift, and go to state 4
+    BREAK        shift, and go to state 5
+    CONTINUE     shift, and go to state 6
+    RETURN       shift, and go to state 7
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+    NUMBER       shift, and go to state 12
+    '-'          shift, and go to state 13
+    PLUS         shift, and go to state 14
+    NOT          shift, and go to state 15
+    '('          shift, and go to state 16
+    '{'          shift, and go to state 17
+    '}'          shift, and go to state 130
+    ';'          shift, and go to state 18
+
+    functionbody       go to state 131
+    statements         go to state 110
+    datadeclarations   go to state 111
+    datadeclaration    go to state 112
+    typespecifier      go to state 113
+    statement          go to state 114
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 116
+
+   13 functionparameters: functionparameters ',' typespecifier . IDENTIFIER
+
+    IDENTIFIER  shift, and go to state 132
+
+
+State 117
+
+   28 datavalue: STRING .
+
+    $default  reduce using rule 28 (datavalue)
+
+
+State 118
+
+   27 datavalue: NUMBER .
+
+    $default  reduce using rule 27 (datavalue)
+
+
+State 119
+
+   22 datadeclaration: typespecifier IDENTIFIER '=' datavalue . ';'
+
+    ';'  shift, and go to state 133
+
+
+State 120
+
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+   76 funargs: funargs ',' expr .
+
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+
+    $default  reduce using rule 76 (funargs)
+
+
+State 121
+
+   53 ifstatement: IF '(' expr ')' statement .
+   54            | IF '(' expr ')' statement . ELSE statement
+
+    ELSE  shift, and go to state 134
+
+    $default  reduce using rule 53 (ifstatement)
+
+
+State 122
+
+   48 whilestatement: WHILE '(' expr ')' statement .
+
+    $default  reduce using rule 48 (whilestatement)
+
+
+State 123
+
+   49 forstatement: FOR '(' forprimitive forprimitive ')' . statement
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    statement          go to state 135
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 124
+
+   50 forstatement: FOR '(' forprimitive forprimitive expr . ')' statement
+   60 expr: expr . PLUS expr
+   61     | expr . '-' expr
+   62     | expr . '*' expr
+   63     | expr . '/' expr
+   64     | expr . '<' expr
+   65     | expr . '>' expr
+   66     | expr . LE expr
+   67     | expr . GE expr
+   68     | expr . EQ expr
+   69     | expr . NE expr
+   70     | expr . AND expr
+   71     | expr . OR expr
+
+    OR    shift, and go to state 59
+    AND   shift, and go to state 60
+    '<'   shift, and go to state 61
+    '>'   shift, and go to state 62
+    EQ    shift, and go to state 63
+    NE    shift, and go to state 64
+    GE    shift, and go to state 65
+    LE    shift, and go to state 66
+    '-'   shift, and go to state 67
+    PLUS  shift, and go to state 68
+    '*'   shift, and go to state 69
+    '/'   shift, and go to state 70
+    ')'   shift, and go to state 136
+
+
+State 125
+
+    9 functiondeclaration: funprefix ')' '{' functionbody '}' .
+
+    $default  reduce using rule 9 (functiondeclaration)
+
+
+State 126
+
+   18 statements: statements statement .
+
+    $default  reduce using rule 18 (statements)
+
+
+State 127
+
+   20 datadeclarations: datadeclarations ',' . datadeclaration
+
+    INT_TYPE     shift, and go to state 8
+    DOUBLE_TYPE  shift, and go to state 9
+    VOID_TYPE    shift, and go to state 10
+    STRING_TYPE  shift, and go to state 11
+
+    datadeclaration  go to state 137
+    typespecifier    go to state 113
+
+
+State 128
+
+   16 functionbody: datadeclarations statements .
+   18 statements: statements . statement
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    $default  reduce using rule 16 (functionbody)
+
+    statement          go to state 126
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 129
+
+   21 datadeclaration: typespecifier IDENTIFIER . ';'
+   22                | typespecifier IDENTIFIER . '=' datavalue ';'
+
+    '='  shift, and go to state 88
+    ';'  shift, and go to state 90
+
+
+State 130
+
+   11 functiondeclaration: funprefix functionparameters ')' '{' '}' .
+
+    $default  reduce using rule 11 (functiondeclaration)
+
+
+State 131
+
+    8 functiondeclaration: funprefix functionparameters ')' '{' functionbody . '}'
+
+    '}'  shift, and go to state 138
+
+
+State 132
+
+   13 functionparameters: functionparameters ',' typespecifier IDENTIFIER .
+
+    $default  reduce using rule 13 (functionparameters)
+
+
+State 133
+
+   22 datadeclaration: typespecifier IDENTIFIER '=' datavalue ';' .
+
+    $default  reduce using rule 22 (datadeclaration)
+
+
+State 134
+
+   54 ifstatement: IF '(' expr ')' statement ELSE . statement
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    statement          go to state 139
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 135
+
+   49 forstatement: FOR '(' forprimitive forprimitive ')' statement .
+
+    $default  reduce using rule 49 (forstatement)
+
+
+State 136
+
+   50 forstatement: FOR '(' forprimitive forprimitive expr ')' . statement
+
+    IDENTIFIER  shift, and go to state 1
+    IF          shift, and go to state 2
+    WHILE       shift, and go to state 3
+    FOR         shift, and go to state 4
+    BREAK       shift, and go to state 5
+    CONTINUE    shift, and go to state 6
+    RETURN      shift, and go to state 7
+    NUMBER      shift, and go to state 12
+    '-'         shift, and go to state 13
+    PLUS        shift, and go to state 14
+    NOT         shift, and go to state 15
+    '('         shift, and go to state 16
+    '{'         shift, and go to state 17
+    ';'         shift, and go to state 18
+
+    statement          go to state 140
+    compoundstatement  go to state 26
+    breakstatement     go to state 27
+    returnstatement    go to state 28
+    continuestatement  go to state 29
+    exprstatement      go to state 30
+    emptystatement     go to state 31
+    whilestatement     go to state 32
+    forstatement       go to state 33
+    ifstatement        go to state 34
+    expr               go to state 35
+
+
+State 137
+
+   20 datadeclarations: datadeclarations ',' datadeclaration .
+
+    $default  reduce using rule 20 (datadeclarations)
+
+
+State 138
+
+    8 functiondeclaration: funprefix functionparameters ')' '{' functionbody '}' .
+
+    $default  reduce using rule 8 (functiondeclaration)
+
+
 State 139
 
-    7 functiondeclaration: typespecifier IDENTIFIER '(' functionparameters ')' '{' functionbody '}' .
+   54 ifstatement: IF '(' expr ')' statement ELSE statement .
 
-    $default  reduce using rule 7 (functiondeclaration)
+    $default  reduce using rule 54 (ifstatement)
+
+
+State 140
+
+   50 forstatement: FOR '(' forprimitive forprimitive expr ')' statement .
+
+    $default  reduce using rule 50 (forstatement)

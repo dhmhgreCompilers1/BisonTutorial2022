@@ -11,6 +11,7 @@ using namespace std;
 
 %code requires{
 #include "STNode.h"
+extern string g_scope;
 }
 
 %verbose
@@ -41,7 +42,7 @@ using namespace std;
 %type <node> NUMBER STRING IDENTIFIER expr compileunit declaration statement datadeclaration functiondeclaration
 typespecifier datadeclarations datavalue exprstatement emptystatement whilestatement ifstatement
 forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive statementlist funargs
-statements functionbody functionparameters
+statements functionbody functionparameters funprefix
 %%
 
 compileunit : declaration  { $$ =g_root= new CompileUnit($1); }
@@ -54,10 +55,15 @@ declaration : datadeclaration		{ $$ = new Declaration($1);  }
 			| functiondeclaration   { $$ = new Declaration($1);  }
 			;
 
-functiondeclaration : typespecifier IDENTIFIER '(' functionparameters ')' '{' functionbody '}' { $$ = new FunctionDeclaration($1,$2,$4,$7);  }
-					| typespecifier IDENTIFIER '(' ')' '{' functionbody '}' { $$ = new FunctionDeclaration($1,$2,$6);  }
-					| typespecifier IDENTIFIER '(' ')' '{'  '}' { $$ = new FunctionDeclaration($1,$2);  }
-					| typespecifier IDENTIFIER '(' functionparameters ')' '{'  '}' { $$ = new FunctionDeclaration($1,$2,$4);  }
+funprefix : typespecifier IDENTIFIER '(' { $$=$1;
+										  g_scope=((IDENTIFIER *)$2)->Name()+"_";
+									      cout << "Entering function "<< g_scope <<endl;
+										 }
+
+functiondeclaration : funprefix functionparameters ')' '{' functionbody '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$2,$5);  }
+					| funprefix ')' '{' functionbody '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$4);  }
+					| funprefix ')' '{'  '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1);  }
+					| funprefix functionparameters ')' '{'  '}' { $$ = new FunctionDeclaration($<node>-2,$<node>-1,$2);  }
 					;
 
 functionparameters : typespecifier IDENTIFIER	{ $$ = new FunctionParameters($1,$2);  }
@@ -172,7 +178,7 @@ funargs : expr				{ $$ = new FunctionCallArguments($1); }
 
 
 %%
-
+string g_scope="";
 namespace yy{
 	void parser::error(yy::location const &loc, const string &message){
 		std::cerr << "error at " << loc << ": " << message << std::endl;

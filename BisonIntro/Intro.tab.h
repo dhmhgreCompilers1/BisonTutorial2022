@@ -45,10 +45,11 @@
 #line 12 "Intro.y"
 
 #include "STNode.h"
+extern string g_scope;
 
 
 /* Line 33 of lalr1.cc  */
-#line 52 "Intro.tab.h"
+#line 53 "Intro.tab.h"
 
 
 #include <string>
@@ -64,7 +65,7 @@
 
 namespace yy {
 /* Line 33 of lalr1.cc  */
-#line 68 "Intro.tab.h"
+#line 69 "Intro.tab.h"
 
   /// A Bison parser.
   class parser
@@ -75,13 +76,13 @@ namespace yy {
     union semantic_type
     {
 /* Line 33 of lalr1.cc  */
-#line 25 "Intro.y"
+#line 26 "Intro.y"
 
 	STNode *node;
 
 
 /* Line 33 of lalr1.cc  */
-#line 85 "Intro.tab.h"
+#line 86 "Intro.tab.h"
     };
 #else
     typedef YYSTYPE semantic_type;
@@ -292,7 +293,7 @@ namespace yy {
 
 } // yy
 /* Line 33 of lalr1.cc  */
-#line 296 "Intro.tab.h"
+#line 297 "Intro.tab.h"
 
 
 
