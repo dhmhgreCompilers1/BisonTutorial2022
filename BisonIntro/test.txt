@@ -1,6 +1,12 @@
-i=0;
-while (i<10){
-		i=i+1;
-		j=1;
-		k=1;
+int Add(int a,int b){ 
+	return a+b;
 }
+
+a=1;
+b=2;
+c=Add(a,b);
+
+
+
+
+

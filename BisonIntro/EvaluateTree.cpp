@@ -142,6 +142,15 @@ TypedDataValue Assignment::EvaluateTree(STNode* parent) {
 	return 0;
 }
 
+TypedDataValue FunctionCall::EvaluateTree(STNode* parent) {
+	return 0;
+}
+
+TypedDataValue FunctionCallArguments::EvaluateTree(STNode* parent) {
+	return 0;
+}
+
+
 TypedDataValue LessEqual::EvaluateTree(STNode* parent) {
 	list<STNode*>::iterator it;
 	TypedDataValue result = 0;
@@ -229,8 +238,6 @@ TypedDataValue Less::Evaluate(TypedDataValue v1, TypedDataValue v2) {
 	}
 
 }
-
-
 
 TypedDataValue WhileStatement::EvaluateTree(STNode* parent) {
 

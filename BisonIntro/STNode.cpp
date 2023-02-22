@@ -23,6 +23,11 @@ const char* g_nodenames[] = {
 	"NT_DATAVALUE",
 	"NT_ADDITION",
 	"NT_ASSIGNMENT",
+	"NT_FUNCTIONCALL",
+	"NT_FUNCTIONCALLARGUMENTS",
+	"NT_FUNCTIONPARAMETERS",
+	"NT_FUNCTIONBODY",
+	"NT_STATEMENTS",
 	"NT_SUBTRACTION",
 	"NT_MULTIPLICATION",
 	"NT_DIVISION",
@@ -108,6 +113,59 @@ FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2,
 	AddChild(arg4);
 }
 
+FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2,
+	STNode* arg3) :
+	STNode(NT_FUNCTIONDECLARATION) {
+	AddChild(arg1);
+	AddChild(arg2);
+	AddChild(arg3);
+}
+
+FunctionDeclaration::FunctionDeclaration(STNode* arg1, STNode* arg2) :
+	STNode(NT_FUNCTIONDECLARATION) {
+	AddChild(arg1);
+	AddChild(arg2);
+}
+FunctionParameters::FunctionParameters(STNode* arg1, STNode* arg2,
+	STNode* arg3) :
+	STNode(NT_FUNCTIONPARAMETERS) {
+	AddChild(arg1);
+	AddChild(arg2);
+	AddChild(arg3);
+}
+
+FunctionParameters::FunctionParameters(STNode* arg1, STNode* arg2) :
+	STNode(NT_FUNCTIONPARAMETERS) {
+	AddChild(arg1);
+	AddChild(arg2);
+}
+
+FunctionBody::FunctionBody(STNode* arg1) :
+	STNode(NT_FUNCTIONBODY) {
+	AddChild(arg1);
+}
+
+FunctionBody::FunctionBody(STNode* arg1, STNode* arg2) :
+	STNode(NT_FUNCTIONBODY) {
+	AddChild(arg1);
+	AddChild(arg2);
+}
+
+Statements::Statements(STNode* arg1) :
+	STNode(NT_STATEMENTS) {
+	AddChild(arg1);
+}
+
+Statements::Statements(STNode* arg1, STNode* arg2) :
+	STNode(NT_STATEMENTS) {
+	AddChild(arg1);
+	AddChild(arg2);
+}
+
+
+
+
+
 DataDeclarations::DataDeclarations(STNode* arg1, STNode* arg2)
 	:STNode(NT_DATADECLARATIONS) {
 	AddChild(arg1);
@@ -137,7 +195,7 @@ CompoundStatement::CompoundStatement(STNode* arg1)
 	}
 }
 
-StatementList::StatementList(STNode* arg1,STNode *arg2)
+StatementList::StatementList(STNode* arg1, STNode* arg2)
 	:STNode(NT_STATEMENTLIST) {
 	AddChild(arg1);
 	if (arg2 != nullptr) {
@@ -225,6 +283,23 @@ Assignment::Assignment(STNode* id, STNode* expr) :
 	AddChild(expr);
 }
 
+FunctionCall::FunctionCall(STNode* id, STNode* args) :
+	STNode(NT_FUNCTIONCALL) {
+	AddChild(id);
+	AddChild(args);
+}
+
+FunctionCallArguments::FunctionCallArguments(STNode* expr) :
+	STNode(NT_FUNCTIONCALLARGUMENTS) {
+	AddChild(expr);
+}
+
+FunctionCallArguments::FunctionCallArguments(STNode* args, STNode* expr) :
+	STNode(NT_FUNCTIONCALLARGUMENTS) {
+	AddChild(args);
+	AddChild(expr);
+}
+
 Subtraction::Subtraction(STNode* left, STNode* right) :
 	STNode(NT_SUBTRACTION) {
 	AddChild(left);
@@ -275,7 +350,7 @@ string IDENTIFIER::GetGraphVizLabel() {
 	return STNode::GetGraphVizLabel() + "_" + m_name;
 }
 
-string CTypeSpecifier::GetGraphVizLabel(){
+string CTypeSpecifier::GetGraphVizLabel() {
 	switch (m_typespec) {
 	case TS_INT:
 		return "int";
@@ -291,7 +366,7 @@ string CTypeSpecifier::GetGraphVizLabel(){
 		break;
 	default:
 		return "";
-	}	
+	}
 }
 
 LessEqual::LessEqual(STNode* left, STNode* right) :

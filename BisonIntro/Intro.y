@@ -40,7 +40,8 @@ using namespace std;
 %nonassoc NOT UNARYOP ELSE
 %type <node> NUMBER STRING IDENTIFIER expr compileunit declaration statement datadeclaration functiondeclaration
 typespecifier datadeclarations datavalue exprstatement emptystatement whilestatement ifstatement
-forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive statementlist
+forstatement breakstatement returnstatement continuestatement compoundstatement forprimitive statementlist funargs
+statements functionbody functionparameters
 %%
 
 compileunit : declaration  { $$ =g_root= new CompileUnit($1); }
@@ -53,15 +54,32 @@ declaration : datadeclaration		{ $$ = new Declaration($1);  }
 			| functiondeclaration   { $$ = new Declaration($1);  }
 			;
 
-functiondeclaration : typespecifier IDENTIFIER '(' datadeclarations ')' statement { $$ = new FunctionDeclaration($1,$2,$4,$6);  }
+functiondeclaration : typespecifier IDENTIFIER '(' functionparameters ')' '{' functionbody '}' { $$ = new FunctionDeclaration($1,$2,$4,$7);  }
+					| typespecifier IDENTIFIER '(' ')' '{' functionbody '}' { $$ = new FunctionDeclaration($1,$2,$6);  }
+					| typespecifier IDENTIFIER '(' ')' '{'  '}' { $$ = new FunctionDeclaration($1,$2);  }
+					| typespecifier IDENTIFIER '(' functionparameters ')' '{'  '}' { $$ = new FunctionDeclaration($1,$2,$4);  }
 					;
+
+functionparameters : typespecifier IDENTIFIER	{ $$ = new FunctionParameters($1,$2);  }
+					| functionparameters ',' typespecifier IDENTIFIER { $$ = new FunctionParameters($1,$3,$4);  }
+					;
+
+
+functionbody: statements				{ $$ = new FunctionBody($1);  }
+			| datadeclarations			{ $$ = new FunctionBody($1);  }
+			| datadeclarations statements { $$ = new FunctionBody($1,$2);  }
+			;
+
+statements : statement				{ $$ = new Statements($1);  }
+			| statements statement  { $$ = new Statements($1,$2);  }
+			;
 
 datadeclarations : datadeclaration						{ $$ = new DataDeclarations($1);  }
 				 | datadeclarations ',' datadeclaration { $$ = new DataDeclarations($1,$3);  }
 				 ;
 
 datadeclaration : typespecifier IDENTIFIER ';'				{ $$ = new DataDeclaration($1,$2);  }
-				| typespecifier IDENTIFIER '=' datavalue    { $$ = new DataDeclaration($1,$2,$4);  }
+				| typespecifier IDENTIFIER '=' datavalue ';'   { $$ = new DataDeclaration($1,$2,$4);  }
 				;
 
 typespecifier : INT_TYPE	 { $$ = new CTypeSpecifier(TS_INT); }
@@ -128,6 +146,7 @@ ifstatement : IF '(' expr ')' statement %prec IFRULE	{ $$= new IfStatement($3,$5
 
 expr : NUMBER       { $$ = $1; }
      | IDENTIFIER   { $$ = $1; }
+	 | IDENTIFIER '(' funargs ')'  { $$ = new FunctionCall($1,$3); }
 	 | '(' expr ')' { $$ = new Parenthesis($2); }
 	 | IDENTIFIER '=' expr { $$ = new Assignment($1,$3);}
 	 | expr PLUS expr { $$ = new Addition($1,$3);  }
@@ -145,8 +164,11 @@ expr : NUMBER       { $$ = $1; }
 	 | NOT expr  { $$ = new Not($2);  }
 	 | PLUS expr %prec UNARYOP  { $$ = new Plus($2);  }
 	 | '-' expr %prec UNARYOP  { $$ = new Minus($2);  }
-
 	 ;
+
+funargs : expr				{ $$ = new FunctionCallArguments($1); }
+		| funargs ',' expr	{ $$ = new FunctionCallArguments($1,$3); }
+		;
 
 
 %%

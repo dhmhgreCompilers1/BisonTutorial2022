@@ -72,6 +72,11 @@ typedef enum nodetype {
 	NT_DATAVALUE,
 	NT_ADDITION,
 	NT_ASSIGNMENT,
+	NT_FUNCTIONCALL,
+	NT_FUNCTIONCALLARGUMENTS,
+	NT_FUNCTIONPARAMETERS,
+	NT_FUNCTIONBODY,
+	NT_STATEMENTS,
 	NT_SUBTRACTION,
 	NT_MULTIPLICATION,
 	NT_DIVISION,
@@ -134,6 +139,34 @@ class FunctionDeclaration : public STNode {
 public:
 	FunctionDeclaration(STNode* arg1, STNode* arg2,
 		STNode* arg3, STNode* arg4);
+	FunctionDeclaration(STNode* arg1, STNode* arg2,
+		STNode* arg3);
+	FunctionDeclaration(STNode* arg1, STNode* arg2);
+	//TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
+class FunctionParameters : public STNode {
+public:
+	FunctionParameters(STNode* arg1, STNode* arg2);
+	FunctionParameters(STNode* arg1, STNode* arg2,
+		STNode* arg3);
+	//TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
+class FunctionBody : public STNode {
+public:
+	FunctionBody(STNode* arg1);
+	FunctionBody(STNode* arg1, STNode* arg2);
+	//TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
+class Statements : public STNode {
+public:
+	Statements(STNode* arg1);
+	Statements(STNode* arg1, STNode* arg2);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
@@ -264,6 +297,22 @@ public:
 	TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
+
+class FunctionCall : public STNode {
+public:
+	FunctionCall(STNode* id, STNode* funargs);
+	TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
+class FunctionCallArguments : public STNode {
+public:
+	FunctionCallArguments(STNode* expr);
+	FunctionCallArguments(STNode* funargs, STNode* expr);
+	TypedDataValue EvaluateTree(STNode* parent) override;
+private:
+};
+
 
 class Subtraction : public STNode {
 public:
