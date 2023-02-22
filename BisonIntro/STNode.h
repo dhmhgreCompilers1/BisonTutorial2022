@@ -5,10 +5,10 @@
 #include <fstream>
 using namespace std;
 
-typedef union DataValue{
+typedef union DataValue {
 	int i;
 	double d;
-	DataValue(){}
+	DataValue() {}
 	DataValue(int _i) :i(_i) {}
 	DataValue(double _d) :d(_d) {}
 }DATAVALUE;
@@ -17,11 +17,11 @@ typedef enum TypeSpecifier {
 	TS_VOID, TS_DOUBLE, TS_INT, TS_STRING
 } TYPESPECIFIER;
 
-struct TypedDataValue{
+struct TypedDataValue {
 	TYPESPECIFIER m_type;
 	DATAVALUE m_value;
-	TypedDataValue(){}
-	TypedDataValue(int i)	{
+	TypedDataValue() {}
+	TypedDataValue(int i) {
 		m_type = TS_INT;
 		m_value.i = i;
 	}
@@ -29,27 +29,26 @@ struct TypedDataValue{
 		m_type = TS_DOUBLE;
 		m_value.d = d;
 	}
-	TypedDataValue(TYPESPECIFIER ts,DATAVALUE v)	{
+	TypedDataValue(TYPESPECIFIER ts, DATAVALUE v) {
 		m_type = ts;
 		m_value = v;
 	}
-	operator bool()	{
-		switch (m_type)		{
+	operator bool() {
+		switch (m_type) {
 		case TS_INT:
 			return (bool)m_value.i;
 			break;
 		case TS_DOUBLE:
 			return (bool)m_value.d;
 			break;
-			default:
-				return false;
+		default:
+			return false;
 		}
 	}
 };
 
 
-typedef enum nodetype
-{
+typedef enum nodetype {
 	NT_NUMBER,
 	NT_IDENTIFIER,
 	NT_TYPESPECIFIER,
@@ -119,7 +118,7 @@ extern STNode* g_root;
 
 class CompileUnit : public STNode {
 public:
-	CompileUnit(STNode* left, STNode* right=nullptr);
+	CompileUnit(STNode* left, STNode* right = nullptr);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
@@ -131,8 +130,7 @@ public:
 private:
 };
 
-class FunctionDeclaration : public STNode
-{
+class FunctionDeclaration : public STNode {
 public:
 	FunctionDeclaration(STNode* arg1, STNode* arg2,
 		STNode* arg3, STNode* arg4);
@@ -140,7 +138,7 @@ public:
 private:
 };
 
-class DataDeclarations : public STNode{
+class DataDeclarations : public STNode {
 public:
 	DataDeclarations(STNode* arg1, STNode* arg2 = nullptr);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
@@ -153,7 +151,7 @@ public:
 private:
 };
 
-class Statement : public STNode{
+class Statement : public STNode {
 public:
 	Statement(STNode* arg1);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
@@ -162,14 +160,14 @@ private:
 
 class CompoundStatement : public STNode {
 public:
-	CompoundStatement(STNode* arg1=nullptr);
+	CompoundStatement(STNode* arg1 = nullptr);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
 
 class StatementList : public STNode {
 public:
-	StatementList(STNode *arg0, STNode* arg1 = nullptr);
+	StatementList(STNode* arg0, STNode* arg1 = nullptr);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
@@ -211,15 +209,15 @@ private:
 
 class WhileStatement : public STNode {
 public:
-	WhileStatement(STNode *cond, STNode*st);
+	WhileStatement(STNode* cond, STNode* st);
 	TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
 
 class ForStatement : public STNode {
 public:
-	ForStatement(STNode* forpr1, STNode* forpr2, STNode *stat);
-	ForStatement(STNode* forpr1, STNode* forpr2,STNode *expr, STNode* stat);
+	ForStatement(STNode* forpr1, STNode* forpr2, STNode* stat);
+	ForStatement(STNode* forpr1, STNode* forpr2, STNode* expr, STNode* stat);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
@@ -233,7 +231,7 @@ private:
 
 class IfStatement : public STNode {
 public:
-	IfStatement(STNode* expr, STNode* trstat, STNode* fstat=nullptr);
+	IfStatement(STNode* expr, STNode* trstat, STNode* fstat = nullptr);
 	//TypedDataValue EvaluateTree(STNode* parent) override;
 private:
 };
@@ -284,6 +282,8 @@ private:
 class LessEqual : public STNode {
 public:
 	LessEqual(STNode* left, STNode* right);
+	TypedDataValue EvaluateTree(STNode* parent) override;
+	TypedDataValue Evaluate(TypedDataValue v1, TypedDataValue v2);
 private:
 };
 
@@ -361,7 +361,7 @@ class NUMBER : public STNode {
 	TYPESPECIFIER m_type;
 	string m_number;
 public:
-	NUMBER(TYPESPECIFIER type,char* number);
+	NUMBER(TYPESPECIFIER type, char* number);
 	string GetGraphVizLabel() override;
 	TypedDataValue EvaluateTree(STNode* parent) override;
 private:
@@ -369,7 +369,7 @@ private:
 
 class IDENTIFIER : public STNode {
 	string m_name;
-	
+
 public:
 	IDENTIFIER(string name);
 	string Name() { return m_name; }
